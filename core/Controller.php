@@ -21,7 +21,12 @@ class Controller {
         }
         $content = ob_get_clean();
         
-        include APP_PATH . '/views/layout/main.php';
+        // Check if it is an admin view and use admin layout
+        if (strpos($view, 'admin/') === 0) {
+            include APP_PATH . '/views/layout/admin.php';
+        } else {
+            include APP_PATH . '/views/layout/main.php';
+        }
     }
 
     public function isLoggedIn() {

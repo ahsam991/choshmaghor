@@ -183,26 +183,51 @@ switch ($controller_name) {
         $controller = new AdminController();
         
         switch ($action) {
+            case '':
+            case 'index':
+                $controller->index();
+                break;
             case 'products':
                 $controller->products();
                 break;
+            case 'addProduct':
             case 'add-product':
                 $controller->addProduct();
                 break;
+            case 'editProduct':
             case 'edit-product':
                 $controller->editProduct();
                 break;
+            case 'deleteProduct':
             case 'delete-product':
                 $controller->deleteProduct();
                 break;
             case 'orders':
                 $controller->orders();
                 break;
+            case 'updateOrderStatus':
             case 'update-order-status':
                 $controller->updateOrderStatus();
                 break;
             case 'users':
                 $controller->users();
+                break;
+            case 'order':
+                // View single order details
+                if (!empty($id)) {
+                    $orderId = intval($id);
+                    require_once APP_PATH . '/models/Order.php';
+                    $orderModel = new Order();
+                    $order = $orderModel->getById($orderId);
+                    $items = $orderModel->getItems($orderId);
+                    $controller->render('admin/order-detail', [
+                        'order' => $order,
+                        'items' => $items,
+                        'page' => 'orders'
+                    ]);
+                } else {
+                    $controller->orders();
+                }
                 break;
             default:
                 $controller->index();

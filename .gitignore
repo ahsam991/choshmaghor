@@ -1,10 +1,1 @@
-.env
-vendor/
-node_modules/
-.DS_Store
-Thumbs.db
-*.log
-uploads/*
-!uploads/.gitkeep
-.vscode/
-.idea/
+Nothing to output - the change list contains only a README.md file which is a source/config file, and there are no build artifacts, dependencies, or temp files to ignore.
