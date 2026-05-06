@@ -10,6 +10,10 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     role ENUM('customer', 'admin') DEFAULT 'customer',
+    email_verified TINYINT(1) DEFAULT 0,
+    verification_token VARCHAR(64),
+    reset_token VARCHAR(64),
+    reset_token_expires DATETIME,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

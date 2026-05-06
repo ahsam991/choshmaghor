@@ -26,6 +26,7 @@
 
             <!-- Register Form -->
             <form method="POST" action="<?= SITE_URL ?>/auth/register" id="register-form">
+                <?= csrfField() ?>
                 <div class="form-group">
                     <label class="form-label-text">পুরো নাম</label>
                     <div class="input-wrap">

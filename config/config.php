@@ -16,6 +16,13 @@ define('CURRENCY_CODE', 'BDT');
 
 // Security
 define('AUTH_SALT', 'choshma_secret_key_2024');
+define('CSRF_TOKEN_LENGTH', 32);
+define('CSRF_TOKEN_EXPIRE', 3600); // 1 hour
+
+// Error Logging
+define('LOG_PATH', APP_PATH . '/logs');
+define('LOG_ERRORS', true);
+define('LOG_LEVEL', 'all'); // all, error, warning, info
 
 // Pagination
 define('ITEMS_PER_PAGE', 12);

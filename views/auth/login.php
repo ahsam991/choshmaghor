@@ -20,6 +20,7 @@
 
             <!-- Login Form -->
             <form method="POST" action="<?= SITE_URL ?>/auth/login" id="login-form">
+                <?= csrfField() ?>
                 <div class="form-group">
                     <label class="form-label-text">ইমেইল এড্রেস</label>
                     <div class="input-wrap">
@@ -44,7 +45,7 @@
                     <label class="form-check-label">
                         <input type="checkbox" name="remember"> মনে রাখুন
                     </label>
-                    <a href="#" class="auth-link" style="font-size: 0.85rem;">পাসওয়ার্ড ভুলে গেছেন?</a>
+                    <a href="<?= SITE_URL ?>/auth/forgot-password" class="auth-link" style="font-size: 0.85rem;">পাসওয়ার্ড ভুলে গেছেন?</a>
                 </div>
 
                 <button type="submit" class="btn btn-gold btn-full btn-lg">
