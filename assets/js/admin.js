@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Delete Product Function
 function deleteProduct(productId) {
-    fetch(`${SITE_URL}/admin/deleteProduct`, {
+    fetch(`${SITE_URL}/admin/delete-product`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -112,7 +112,7 @@ function deleteProduct(productId) {
 
 // Update Order Status Function
 function updateOrderStatus(orderId, status) {
-    fetch(`${SITE_URL}/admin/updateOrderStatus`, {
+    fetch(`${SITE_URL}/admin/update-order-status`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
