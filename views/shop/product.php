@@ -15,11 +15,11 @@
         <!-- Gallery -->
         <div class="product-gallery">
             <div class="main-img-wrap">
-                <img src="<?= asset('images/products/' . ($product['image'] ?? 'placeholder.png')) ?>" alt="<?= e($product['name']) ?>" id="main-product-img" onerror="this.src='<?= asset('images/placeholder.png') ?>'">
+                <img src="<?= asset('images/products/' . ($product['image_url'] ?? 'placeholder.png')) ?>" alt="<?= e($product['name']) ?>" id="main-product-img" onerror="this.src='<?= asset('images/placeholder.png') ?>'">
             </div>
             <div class="thumb-grid">
                 <div class="thumb-item active" onclick="updateMainImg(this)">
-                    <img src="<?= asset('images/products/' . ($product['image'] ?? 'placeholder.png')) ?>" alt="" onerror="this.src='<?= asset('images/placeholder.png') ?>'">
+                    <img src="<?= asset('images/products/' . ($product['image_url'] ?? 'placeholder.png')) ?>" alt="" onerror="this.src='<?= asset('images/placeholder.png') ?>'">
                 </div>
                 <!-- Mock thumbs if any -->
                 <div class="thumb-item" onclick="updateMainImg(this)">
@@ -30,7 +30,7 @@
 
         <!-- Info -->
         <div class="product-main-info">
-            <div class="pd-brand"><?= e($product['brand'] ?? 'Premium Collection') ?></div>
+            <div class="pd-brand"><?= e($product['category_name'] ?? 'Premium Collection') ?></div>
             <h1 class="pd-name"><?= e($product['name']) ?></h1>
             
             <div class="pd-rating">
@@ -75,7 +75,7 @@
                     <input type="number" id="pd-qty" value="1" min="1" readonly>
                     <button type="button" class="qty-btn" onclick="updateQty(1)">+</button>
                 </div>
-                <button class="btn btn-gold btn-lg flex-grow-1" onclick="addToCart('<?= $product['id'] ?>', '<?= e($product['name']) ?>', '<?= $product['discount_price'] > 0 ? $product['discount_price'] : $product['price'] ?>', '<?= asset('images/products/' . ($product['image'] ?? 'placeholder.png')) ?>')">
+                <button class="btn btn-gold btn-lg flex-grow-1" onclick="addToCart('<?= $product['id'] ?>', '<?= e($product['name']) ?>', '<?= $product['discount_price'] > 0 ? $product['discount_price'] : $product['price'] ?>', '<?= asset('images/products/' . ($product['image_url'] ?? 'placeholder.png')) ?>')">
                     <i class="fas fa-shopping-cart me-2"></i> Add to Cart
                 </button>
                 <button class="wishlist-btn-outline">

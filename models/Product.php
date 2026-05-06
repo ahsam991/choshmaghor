@@ -39,7 +39,7 @@ class Product {
     }
 
     public function getFeatured() {
-        $stmt = $this->db->prepare("SELECT * FROM products WHERE is_featured = 1 LIMIT 8");
+        $stmt = $this->db->prepare("SELECT p.*, c.name as category_name FROM products p LEFT JOIN categories c ON p.category_id = c.id WHERE p.is_featured = 1 LIMIT 8");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

@@ -1,1 +1,88 @@
-Nothing to output - the change list contains only a README.md file which is a source/config file, and there are no build artifacts, dependencies, or temp files to ignore.
+```php
+# Compiled and build artifacts
+*.pyc
+__pycache__/
+*.o
+*.obj
+*.class
+*.exe
+*.dll
+*.so
+*.a
+*.out
+
+# Dependencies
+node_modules/
+vendor/
+composer.lock
+.env
+.env.local
+.env.*
+
+# Logs and temp files
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Coverage reports
+coverage/
+htmlcov/
+.coverage
+
+# IDE specific
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Build and distribution
+dist/
+build/
+target/
+.gradle/
+
+# Python specific
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+*.so
+.Python
+*.egg-info/
+.eggs/
+.mypy_cache/
+.pytest_cache/
+.tox/
+.coverage
+coverage.xml
+*.cover
+.hypothesis/
+
+# Web specific
+*.min.js
+*.min.css
+public/build/
+web/build/
+
+# Backup and swap files
+*~
+*.bak
+*.swp
+*.swo
+
+# Environment specific
+.env
+.env.local
+.env.*
+!.env.example
+
+# Cache directories
+.cache/
+*.cache
+```
