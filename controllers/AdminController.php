@@ -80,6 +80,8 @@ class AdminController extends Controller {
 
     // Add Product Form
     public function addProduct() {
+        $error = '';
+        
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = [
                 'name' => trim($_POST['name'] ?? ''),
@@ -91,27 +93,51 @@ class AdminController extends Controller {
                 'is_featured' => isset($_POST['is_featured']) ? 1 : 0
             ];
 
+            // Handle image upload
+            if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+                $uploadDir = UPLOAD_PATH;
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0755, true);
+                }
+                
+                $fileExtension = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
+                $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+                
+                if (in_array($fileExtension, $allowedExtensions)) {
+                    $fileName = uniqid('product_') . '.' . $fileExtension;
+                    $uploadPath = $uploadDir . $fileName;
+                    
+                    if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadPath)) {
+                        $data['image_url'] = UPLOAD_URL . $fileName;
+                    }
+                }
+            }
+
             if (empty($data['name']) || $data['price'] <= 0) {
                 $error = 'Product name and price are required';
+            } elseif ($this->productModel->create($data)) {
+                header('Location: ' . SITE_URL . '/admin/products?success=1');
+                exit;
             } else {
-                if ($this->productModel->create($data)) {
-                    header('Location: ' . SITE_URL . '/admin/products?success=1');
-                    exit;
-                } else {
-                    $error = 'Failed to add product';
-                }
+                $error = 'Failed to add product';
             }
         }
 
         $this->render('admin/add-product', [
-            'error' => $error ?? '',
-            'page' => 'products'
+            'error' => $error,
+            'page' => 'add-product'
         ]);
     }
 
     // Edit Product
     public function editProduct() {
         $product_id = intval($GLOBALS['product_id'] ?? 0);
+        
+        if (!$product_id) {
+            header('Location: ' . SITE_URL . '/admin/products');
+            exit;
+        }
+        
         $product = $this->productModel->getById($product_id);
 
         if (!$product) {
@@ -130,7 +156,29 @@ class AdminController extends Controller {
                 'is_featured' => isset($_POST['is_featured']) ? 1 : 0
             ];
 
-            if ($this->productModel->update($product_id, $data)) {
+            // Handle image upload
+            if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+                $uploadDir = UPLOAD_PATH;
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0755, true);
+                }
+                
+                $fileExtension = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
+                $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+                
+                if (in_array($fileExtension, $allowedExtensions)) {
+                    $fileName = uniqid('product_') . '.' . $fileExtension;
+                    $uploadPath = $uploadDir . $fileName;
+                    
+                    if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadPath)) {
+                        $data['image_url'] = UPLOAD_URL . $fileName;
+                    }
+                }
+            }
+
+            if (empty($data['name'])) {
+                $error = 'Product name is required';
+            } elseif ($this->productModel->update($product_id, $data)) {
                 header('Location: ' . SITE_URL . '/admin/products?success=1');
                 exit;
             } else {
