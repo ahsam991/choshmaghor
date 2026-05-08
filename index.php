@@ -49,6 +49,11 @@ function cartTotal() {
 
 function isActive($path) {
     $current = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+    // Handle subdirectory paths
+    if ($base_path !== '' && strpos($current, $base_path) === 0) {
+        $current = substr($current, strlen($base_path));
+    }
+    $current = trim($current, '/');
     return strpos($current, $path) === 0 ? 'active' : '';
 }
 
@@ -91,10 +96,79 @@ if ($controller_name === 'home' && $action === 'setLang') {
     exit;
 }
 
+// About page route
+if ($controller_name === 'about' || ($controller_name === 'home' && $action === 'about')) {
+    // SEO optimization for about page
+    $title = 'About ChoshmaZone - Premium Sunglasses Store in Bangladesh';
+    $meta_description = 'Learn about ChoshmaZone, Bangladesh\'s leading online sunglasses store. We offer 100% original UV400 protection eyewear with fast delivery and cash on delivery options.';
+    $og_title = 'About ChoshmaZone - Your Trusted Eyewear Partner';
+    $og_type = 'website';
+    
+    $controller = new Controller();
+    $controller->render('home/about', [
+        'title' => $title,
+        'meta_description' => $meta_description,
+        'og_title' => $og_title,
+        'og_type' => $og_type
+    ]);
+    exit;
+}
+
+// Contact page route
+if ($controller_name === 'contact' || ($controller_name === 'home' && $action === 'contact')) {
+    // SEO optimization for contact page
+    $title = 'Contact ChoshmaZone - Get in Touch';
+    $meta_description = 'Contact ChoshmaZone for any inquiries about our premium sunglasses. Call, WhatsApp, or email us. Fast response guaranteed.';
+    $og_title = 'Contact ChoshmaZone';
+    $og_type = 'website';
+    
+    $controller = new Controller();
+    $controller->render('home/contact', [
+        'title' => $title,
+        'meta_description' => $meta_description,
+        'og_title' => $og_title,
+        'og_type' => $og_type
+    ]);
+    exit;
+}
+
 // Router
 switch ($controller_name) {
     case '':
     case 'home':
+        // Check if it's the about or contact action from home controller
+        if ($action === 'about') {
+            $title = 'About ChoshmaZone - Premium Sunglasses Store in Bangladesh';
+            $meta_description = 'Learn about ChoshmaZone, Bangladesh\'s leading online sunglasses store. We offer 100% original UV400 protection eyewear with fast delivery and cash on delivery options.';
+            $og_title = 'About ChoshmaZone - Your Trusted Eyewear Partner';
+            $og_type = 'website';
+            
+            $controller = new Controller();
+            $controller->render('home/about', [
+                'title' => $title,
+                'meta_description' => $meta_description,
+                'og_title' => $og_title,
+                'og_type' => $og_type
+            ]);
+            break;
+        }
+        
+        if ($action === 'contact') {
+            $title = 'Contact ChoshmaZone - Get in Touch';
+            $meta_description = 'Contact ChoshmaZone for any inquiries about our premium sunglasses. Call, WhatsApp, or email us. Fast response guaranteed.';
+            $og_title = 'Contact ChoshmaZone';
+            $og_type = 'website';
+            
+            $controller = new Controller();
+            $controller->render('home/contact', [
+                'title' => $title,
+                'meta_description' => $meta_description,
+                'og_title' => $og_title,
+                'og_type' => $og_type
+            ]);
+            break;
+        }
+        
         require_once APP_PATH . '/models/Product.php';
         $productModel = new Product();
         $featured = $productModel->getFeatured();
