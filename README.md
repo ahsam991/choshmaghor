@@ -551,7 +551,15 @@ This project is proprietary software. All rights reserved.
 ---
 ## 📝 Changelog
 
-### v2.1.0 (Current)
+### v2.2.0 (Current)
+- ✅ Implemented AJAX-driven real-time Shopping Cart & Wishlist with localStorage/cookie synchronization.
+- ✅ Added custom 404 Error page with search functionality and elegant design.
+- ✅ Enhanced Admin Dashboard with real-time Server Health & Database Metrics tracker.
+- ✅ Developed Admin-configurable Promotion Popup Management System.
+- ✅ Integrated Memory Context Processing (MCP) layer for backend performance profiling and logging.
+- ✅ Created Python Selenium End-to-End Test suite for cart and wishlist validation.
+
+### v2.1.0
 - ✅ Fixed product edit functionality (routing & null value saving).
 - ✅ Added complete Dark/Light mode theme switching with local storage persistence.
 - ✅ Implemented dynamic Multi-language System (English/Bengali) across all views.
