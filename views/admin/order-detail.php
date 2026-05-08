@@ -1,13 +1,27 @@
 <div class="page-header">
     <div class="container d-flex justify-content-between align-items-center">
         <h1><i class="fas fa-receipt"></i> অর্ডার বিস্তারিত</h1>
-        <?php if ($order): ?>
-            <a href="<?= SITE_URL ?>/admin/invoice/<?= $order['id'] ?>" class="btn btn-gold" target="_blank">
-                <i class="fas fa-print me-2"></i> Print Cash Memo
-            </a>
+        <?php if ($order): 
+            $shipping = json_decode($order['shipping_address'] ?? '{}', true);
+        ?>
+            <div>
+                <?php if (!empty($shipping['phone'])): ?>
+                    <a href="https://wa.me/<?= preg_replace('/[^0-9]/', '', $shipping['phone']) ?>" class="btn btn-outline-gold" target="_blank">
+                        <i class="fab fa-whatsapp me-2"></i> Message Customer
+                    </a>
+                <?php endif; ?>
+                <a href="<?= SITE_URL ?>/admin/invoice/<?= $order['id'] ?>" class="btn btn-gold ms-2" target="_blank">
+                    <i class="fas fa-print me-2"></i> Print Cash Memo
+                </a>
+            </div>
         <?php endif; ?>
     </div>
 </div>
+
+<!-- Leaflet CSS for Admin -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 <div class="container" style="padding: 20px 0;">
     <?php if (!$order): ?>
@@ -31,9 +45,12 @@
                 </div>
                 <div>
                     <div style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 4px;">গ্রাহক</div>
-                    <div style="color: var(--white); font-weight: 600;"><?= e($order['name'] ?? 'অতিথি') ?></div>
-                    <?php if (!empty($order['email'])): ?>
-                        <div style="color: var(--text-muted); font-size: 0.85rem;"><?= e($order['email']) ?></div>
+                    <div style="color: var(--white); font-weight: 600;"><?= e($shipping['name'] ?? $order['name'] ?? 'অতিথি') ?> <span class="badge bg-secondary"><?= empty($order['user_id']) ? 'Guest' : 'Member' ?></span></div>
+                    <?php if (!empty($shipping['email'] ?? $order['email'])): ?>
+                        <div style="color: var(--text-muted); font-size: 0.85rem;"><i class="fas fa-envelope"></i> <?= e($shipping['email'] ?? $order['email']) ?></div>
+                    <?php endif; ?>
+                    <?php if (!empty($shipping['phone'])): ?>
+                        <div style="color: var(--text-muted); font-size: 0.85rem;"><i class="fas fa-phone"></i> <?= e($shipping['phone']) ?></div>
                     <?php endif; ?>
                 </div>
                 <div>
@@ -55,9 +72,38 @@
                 </div>
                 <div>
                     <div style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 4px;">শিপিং ঠিকানা</div>
-                    <div style="color: var(--white);"><?= nl2br(e($order['shipping_address'] ?? 'N/A')) ?></div>
+                    <div style="color: var(--white);">
+                        <?= e($shipping['address'] ?? '') ?><br>
+                        <?= e($shipping['city'] ?? '') ?> <?= e($shipping['postal_code'] ?? '') ?>
+                        <?php if(!empty($shipping['landmark'])): ?>
+                            <br><small style="color: var(--gold);"><i class="fas fa-building"></i> <?= e($shipping['landmark']) ?></small>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
+
+            <?php if(!empty($shipping['latitude']) && !empty($shipping['longitude'])): ?>
+            <div class="mt-4">
+                <div style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 8px;"><i class="fas fa-map-marker-alt"></i> পিন করা লোকেশন (Customer Location)</div>
+                <div id="admin-order-map" style="height: 300px; width: 100%; border-radius: 8px; border: 1px solid var(--border-color); z-index: 1;"></div>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        var lat = <?= json_encode($shipping['latitude']) ?>;
+                        var lng = <?= json_encode($shipping['longitude']) ?>;
+                        if(lat && lng) {
+                            var map = L.map('admin-order-map').setView([lat, lng], 16);
+                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                maxZoom: 19,
+                                attribution: '© OpenStreetMap'
+                            }).addTo(map);
+                            L.marker([lat, lng]).addTo(map)
+                                .bindPopup('<b>Customer Location</b><br><?= e($shipping['address'] ?? '') ?>')
+                                .openPopup();
+                        }
+                    });
+                </script>
+            </div>
+            <?php endif; ?>
         </div>
 
         <!-- Order Items Card -->

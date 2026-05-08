@@ -1,6 +1,7 @@
 <?php
 require_once APP_PATH . '/models/Order.php';
 require_once APP_PATH . '/models/Product.php';
+require_once APP_PATH . '/core/Notification.php';
 
 class OrderController extends Controller {
     private $orderModel;
@@ -62,6 +63,9 @@ class OrderController extends Controller {
         $address = trim($_POST['address'] ?? '');
         $city = trim($_POST['city'] ?? '');
         $postal_code = trim($_POST['postal_code'] ?? '');
+        $landmark = trim($_POST['landmark'] ?? '');
+        $latitude = trim($_POST['latitude'] ?? '');
+        $longitude = trim($_POST['longitude'] ?? '');
         $payment_method = trim($_POST['payment_method'] ?? 'cod');
 
         // Validate inputs
@@ -82,15 +86,19 @@ class OrderController extends Controller {
         }
 
         // Prepare shipping address
-        $shipping_address = json_encode([
+        $shipping_array = [
             'name' => $name,
             'email' => $email,
             'phone' => $phone,
             'address' => $address,
             'city' => $city,
             'postal_code' => $postal_code,
+            'landmark' => $landmark,
+            'latitude' => $latitude,
+            'longitude' => $longitude,
             'payment_method' => $payment_method
-        ]);
+        ];
+        $shipping_address = json_encode($shipping_array);
 
         // Create order
         $user_id = $this->isLoggedIn() ? $_SESSION['user_id'] : null;
@@ -115,6 +123,14 @@ class OrderController extends Controller {
                     $this->productModel->updateStock($product_id, $product['stock_quantity'] - $quantity);
                 }
             }
+
+            // Fetch order items for notifications
+            $items = $this->orderModel->getItems($order_id);
+            $order = ['id' => $order_id, 'total_amount' => $total];
+
+            // Send Notifications
+            Notification::sendWhatsAppOrderAlert($order, $items, $shipping_array);
+            Notification::sendEmailConfirmation($order, $items, $shipping_array);
 
             // Clear cart
             $_SESSION['cart'] = [];

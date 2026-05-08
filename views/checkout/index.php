@@ -11,6 +11,11 @@
     </div>
 </div>
 
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
 <div class="container">
     <form id="checkout-form" method="POST" action="<?= SITE_URL ?>/checkout/process">
         <div class="checkout-grid">
@@ -76,6 +81,23 @@
                                 <input type="text" name="postal_code" class="form-field" placeholder="1234">
                             </div>
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label-text">Landmark (Optional)</label>
+                        <div class="input-wrap">
+                            <i class="fas fa-building input-icon"></i>
+                            <input type="text" name="landmark" class="form-field" placeholder="Near Hospital/School, etc.">
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="form-label-text">Pin your exact delivery location on the map *</label>
+                        <div id="checkout-map" style="height: 300px; width: 100%; border-radius: 8px; border: 1px solid var(--border-color); z-index: 1;"></div>
+                        <p class="text-muted small mt-1"><i class="fas fa-info-circle"></i> Drag the marker or click on the map to set your location.</p>
+                        <input type="hidden" name="latitude" id="latitude" required>
+                        <input type="hidden" name="longitude" id="longitude" required>
+                        <button type="button" class="btn btn-outline-gold btn-sm mt-2" onclick="getCurrentLocation()"><i class="fas fa-crosshairs"></i> Use My Current Location</button>
                     </div>
 
                     <div class="form-group">
@@ -157,4 +179,85 @@
             </aside>
         </div>
     </form>
-</div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Initialize Map
+        var initialLat = 23.8103; // Default Dhaka
+        var initialLng = 90.4125;
+        
+        var map = L.map('checkout-map').setView([initialLat, initialLng], 12);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        var marker = L.marker([initialLat, initialLng], {draggable: true}).addTo(map);
+
+        function updateCoordinates(lat, lng) {
+            document.getElementById('latitude').value = lat;
+            document.getElementById('longitude').value = lng;
+        }
+
+        updateCoordinates(initialLat, initialLng);
+
+        map.on('click', function(e) {
+            marker.setLatLng(e.latlng);
+            updateCoordinates(e.latlng.lat, e.latlng.lng);
+        });
+
+        marker.on('dragend', function(e) {
+            var position = marker.getLatLng();
+            updateCoordinates(position.lat, position.lng);
+        });
+
+        window.getCurrentLocation = function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var lat = position.coords.latitude;
+                    var lng = position.coords.longitude;
+                    map.setView([lat, lng], 15);
+                    marker.setLatLng([lat, lng]);
+                    updateCoordinates(lat, lng);
+                }, function(error) {
+                    alert("Could not get your location. Please check browser permissions.");
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        };
+
+        // Handle Form Submission via AJAX to show success or error
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var form = this;
+            var submitBtn = form.querySelector('button[type="submit"]');
+            var originalText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            submitBtn.disabled = true;
+
+            var formData = new FormData(form);
+            fetch(form.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    window.location.href = data.redirect;
+                } else {
+                    alert(data.message || 'An error occurred. Please try again.');
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }
+            })
+            .catch(err => {
+                alert('Connection error. Please try again.');
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            });
+        });
+    });
+</script>
