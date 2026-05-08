@@ -1,3 +1,7 @@
+<?php
+$settingsFile = APP_PATH . '/config/settings.json';
+$global_settings = file_exists($settingsFile) ? json_decode(file_get_contents($settingsFile), true) : [];
+?>
 <!DOCTYPE html>
 <html lang="<?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'en' : 'bn' ?>">
 
@@ -6,8 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Dynamic Title with Primary Keywords -->
-    <title><?= isset($title) ? e($title) . ' | ' : '' ?>ChoshmaZone - Premium Sunglasses Online in Bangladesh | Original
-        Ray-Ban, Oakley Style</title>
+    <title><?= isset($title) ? e($title) . ' | ' : '' ?><?= e($global_settings['site_title'] ?? 'ChoshmaZone') ?> - Premium Sunglasses Online</title>
 
     <!-- Primary SEO Meta Tags -->
     <meta name="description"
@@ -29,7 +32,7 @@
     <meta property="og:description"
         content="<?= isset($meta_description) ? e($meta_description) : 'বাংলাদেশের সেরা প্রিমিয়াম সানগ্লাস কালেকশন। ১০০% অরিজিনাল, ইউভি প্রোটেকশন, ফ্রি ডেলিভারি।' ?>">
     <meta property="og:image" content="<?= isset($og_image) ? e($og_image) : asset('images/og-image.jpg') ?>">
-    <meta property="og:site_name" content="ChoshmaZone">
+    <meta property="og:site_name" content="<?= e($global_settings['site_title'] ?? 'ChoshmaZone') ?>">
     <meta property="og:locale"
         content="<?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'en_BD' : 'bn_BD' ?>">
 
@@ -43,7 +46,7 @@
     <meta name="twitter:image" content="<?= isset($og_image) ? e($og_image) : asset('images/og-image.jpg') ?>">
 
     <!-- Additional SEO Meta Tags -->
-    <meta name="theme-color" content="#D4AF37">
+    <meta name="theme-color" content="<?= e($global_settings['primary_color'] ?? '#D4AF37') ?>">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -68,6 +71,13 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="<?= asset('css/style.css') ?>" rel="stylesheet">
+    
+    <style>
+        :root {
+            --gold: <?= e($global_settings['primary_color'] ?? '#D4AF37') ?>;
+            /* Adjust hover color by modifying opacity or using a slightly different hex if needed */
+        }
+    </style>
 
     <!-- Preload Critical Resources -->
     <link rel="preload" href="<?= asset('images/logo.png') ?>" as="image">
@@ -79,19 +89,19 @@
     {
         "@context": "https://schema.org",
         "@type": "Organization",
-        "name": "ChoshmaZone",
+        "name": "<?= e($global_settings['site_title'] ?? 'ChoshmaZone') ?>",
         "url": "<?= SITE_URL ?>",
         "logo": "<?= asset('images/logo.png') ?>",
         "description": "Premium sunglasses online store in Bangladesh",
         "contactPoint": {
             "@type": "ContactPoint",
-            "telephone": "+880-1889-688034",
+            "telephone": "<?= e($global_settings['contact_phone'] ?? '+880-1889-688034') ?>",
             "contactType": "Customer Service",
             "areaServed": "BD",
             "availableLanguage": ["Bengali", "English"]
         },
         "sameAs": [
-            "https://www.facebook.com/profile.php?id=100066797659136",
+            "<?= e($global_settings['facebook_link'] ?? 'https://www.facebook.com') ?>",
             "https://wa.me/8801889688034"
         ]
     }
@@ -127,10 +137,10 @@
         <div class="container">
             <div class="topbar-inner">
                 <div class="topbar-left">
-                    <a href="tel:+8801889688034"><i class="fas fa-phone me-1 text-gold"></i> +880 1889-688034</a>
+                    <a href="tel:<?= e($global_settings['contact_phone'] ?? '+8801889688034') ?>"><i class="fas fa-phone me-1 text-gold"></i> <?= e($global_settings['contact_phone'] ?? '+880 1889-688034') ?></a>
                     <span class="d-none d-sm-inline">|</span>
-                    <a href="mailto:contact@choshmazone.com" class="d-none d-sm-inline"><i
-                            class="fas fa-envelope me-1 text-gold"></i> contact@choshmazone.com</a>
+                    <a href="mailto:<?= e($global_settings['contact_email'] ?? 'contact@choshmazone.com') ?>" class="d-none d-sm-inline"><i
+                            class="fas fa-envelope me-1 text-gold"></i> <?= e($global_settings['contact_email'] ?? 'contact@choshmazone.com') ?></a>
                 </div>
                 <div class="topbar-right">
                     <!-- Language Switch -->
@@ -171,8 +181,8 @@
             <div class="header-inner">
                 <!-- Logo -->
                 <a href="<?= SITE_URL ?>" class="logo">
-                    <img src="<?= asset('images/logo.png') ?>" alt="ChoshmaZone Logo">
-                    <div class="logo-text">CHOSHMA<span>ZONE</span></div>
+                    <img src="<?= e($global_settings['site_logo'] ?? asset('images/logo.png')) ?>" alt="Logo">
+                    <div class="logo-text"><?= e(strtoupper($global_settings['site_title'] ?? 'CHOSHMAZONE')) ?></div>
                 </a>
 
                 <!-- Nav -->

@@ -382,6 +382,9 @@ switch ($controller_name) {
                     $controller->orders();
                 }
                 break;
+            case 'backup':
+                $controller->backup();
+                break;
             default:
                 $controller->index();
         }

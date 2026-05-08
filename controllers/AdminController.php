@@ -312,7 +312,13 @@ class AdminController extends Controller {
             'popup_title' => '',
             'popup_content' => '',
             'popup_image' => '',
-            'popup_link' => ''
+            'popup_link' => '',
+            'site_title' => '',
+            'site_logo' => '',
+            'primary_color' => '',
+            'contact_phone' => '',
+            'contact_email' => '',
+            'facebook_link' => ''
         ];
         
         if (file_exists($settingsFile)) {
@@ -327,6 +333,12 @@ class AdminController extends Controller {
             $settings['popup_content'] = trim($_POST['popup_content'] ?? '');
             $settings['popup_image'] = trim($_POST['popup_image'] ?? '');
             $settings['popup_link'] = trim($_POST['popup_link'] ?? '');
+            $settings['site_title'] = trim($_POST['site_title'] ?? '');
+            $settings['site_logo'] = trim($_POST['site_logo'] ?? '');
+            $settings['primary_color'] = trim($_POST['primary_color'] ?? '');
+            $settings['contact_phone'] = trim($_POST['contact_phone'] ?? '');
+            $settings['contact_email'] = trim($_POST['contact_email'] ?? '');
+            $settings['facebook_link'] = trim($_POST['facebook_link'] ?? '');
             
             file_put_contents($settingsFile, json_encode($settings, JSON_PRETTY_PRINT));
             $success = "Settings updated successfully.";
@@ -365,5 +377,44 @@ class AdminController extends Controller {
         ]);
         
         include APP_PATH . '/views/admin/invoice.php';
+    }
+
+    // ─── Database Backup ───────────────────────────────────────────
+    public function backup() {
+        header('Content-Type: application/sql');
+        header('Content-Disposition: attachment; filename="choshmazone_backup_' . date('Y-m-d_H-i-s') . '.sql"');
+        
+        $tables = [];
+        $stmt = $this->db->query('SHOW TABLES');
+        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $tables[] = $row[0];
+        }
+
+        $sql = "-- ChoshmaZone Database Backup\n";
+        $sql .= "-- Generated: " . date('Y-m-d H:i:s') . "\n\n";
+
+        foreach ($tables as $table) {
+            $sql .= "DROP TABLE IF EXISTS `$table`;\n";
+            $createStmt = $this->db->query("SHOW CREATE TABLE `$table`");
+            $createRow = $createStmt->fetch(PDO::FETCH_NUM);
+            $sql .= $createRow[1] . ";\n\n";
+
+            $rowsStmt = $this->db->query("SELECT * FROM `$table`");
+            $rows = $rowsStmt->fetchAll(PDO::FETCH_ASSOC);
+            if (count($rows) > 0) {
+                $sql .= "INSERT INTO `$table` VALUES \n";
+                $values = [];
+                foreach ($rows as $row) {
+                    $rowVals = array_map(function($val) {
+                        return $val === null ? 'NULL' : $this->db->quote($val);
+                    }, array_values($row));
+                    $values[] = "(" . implode(", ", $rowVals) . ")";
+                }
+                $sql .= implode(",\n", $values) . ";\n\n";
+            }
+        }
+        
+        echo $sql;
+        exit;
     }
 }

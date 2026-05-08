@@ -1,6 +1,9 @@
 <div class="admin-header">
     <div class="d-flex justify-content-between align-items-center">
         <h2><i class="fas fa-cog text-gold me-2"></i>General Settings</h2>
+        <a href="<?= SITE_URL ?>/admin/backup" class="btn btn-outline-gold">
+            <i class="fas fa-database me-2"></i>Backup Database
+        </a>
     </div>
 </div>
 
@@ -10,6 +13,37 @@
     <?php endif; ?>
 
     <form action="<?= SITE_URL ?>/admin/settings" method="POST">
+        <div class="mb-4">
+            <h5 class="text-gold border-bottom border-secondary pb-2 mb-3">General Website Settings</h5>
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Site Title / Brand Name</label>
+                    <input type="text" class="form-control" name="site_title" value="<?= e($settings['site_title'] ?? '') ?>" placeholder="e.g. ChoshmaZone">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Site Logo URL</label>
+                    <input type="text" class="form-control" name="site_logo" value="<?= e($settings['site_logo'] ?? '') ?>" placeholder="URL to your logo image">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Primary Color (Hex)</label>
+                    <input type="color" class="form-control form-control-color w-100" name="primary_color" value="<?= e($settings['primary_color'] ?? '#D4AF37') ?>">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Contact Phone</label>
+                    <input type="text" class="form-control" name="contact_phone" value="<?= e($settings['contact_phone'] ?? '') ?>" placeholder="+8801...">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Contact Email</label>
+                    <input type="email" class="form-control" name="contact_email" value="<?= e($settings['contact_email'] ?? '') ?>" placeholder="contact@...">
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Facebook Page Link</label>
+                    <input type="url" class="form-control" name="facebook_link" value="<?= e($settings['facebook_link'] ?? '') ?>" placeholder="https://facebook.com/...">
+                </div>
+            </div>
+        </div>
+
         <div class="mb-4">
             <h5 class="text-gold border-bottom border-secondary pb-2 mb-3">Homepage Settings</h5>
             

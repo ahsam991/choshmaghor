@@ -1,11 +1,11 @@
 {
     "promo_end_time": "2026-05-28T14:05",
-    "popup_enabled": "1",
+    "popup_enabled": "0",
     "popup_title": "Sale sale",
     "popup_content": "",
     "popup_image": "",
     "popup_link": "",
-    "whatsapp_api_url": "https://graph.facebook.com/v17.0/YOUR_PHONE_NUMBER_ID/messages",
+    "whatsapp_api_url": "https:\/\/graph.facebook.com\/v17.0\/YOUR_PHONE_NUMBER_ID\/messages",
     "whatsapp_instance_id": "",
     "whatsapp_token": "YOUR_WHATSAPP_CLOUD_API_TOKEN",
     "whatsapp_admin_phone": "+88017XXXXXXXX"
