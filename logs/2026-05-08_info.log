@@ -1,2 +1,0 @@
-[2026-05-08 08:01:26] [INFO] [IP:::1] [User:1] [//auth/login] User login successful | Context: {"user_id":1,"email":"admin@choshmazone.com"}
-[2026-05-08 08:15:13] [INFO] [IP:::1] [User:1] [/auth/login] User login successful | Context: {"user_id":1,"email":"admin@choshmazone.com"}
