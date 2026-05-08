@@ -314,11 +314,16 @@ class AdminController extends Controller {
             'popup_image' => '',
             'popup_link' => '',
             'site_title' => '',
+            'site_tagline' => '',
             'site_logo' => '',
-            'primary_color' => '',
+            'primary_color' => '#c9a84c',
             'contact_phone' => '',
             'contact_email' => '',
-            'facebook_link' => ''
+            'contact_address' => '',
+            'facebook_link' => '',
+            'instagram_link' => '',
+            'whatsapp_link' => '',
+            'currency' => '৳'
         ];
         
         if (file_exists($settingsFile)) {
@@ -334,11 +339,16 @@ class AdminController extends Controller {
             $settings['popup_image'] = trim($_POST['popup_image'] ?? '');
             $settings['popup_link'] = trim($_POST['popup_link'] ?? '');
             $settings['site_title'] = trim($_POST['site_title'] ?? '');
+            $settings['site_tagline'] = trim($_POST['site_tagline'] ?? '');
             $settings['site_logo'] = trim($_POST['site_logo'] ?? '');
             $settings['primary_color'] = trim($_POST['primary_color'] ?? '');
             $settings['contact_phone'] = trim($_POST['contact_phone'] ?? '');
             $settings['contact_email'] = trim($_POST['contact_email'] ?? '');
+            $settings['contact_address'] = trim($_POST['contact_address'] ?? '');
             $settings['facebook_link'] = trim($_POST['facebook_link'] ?? '');
+            $settings['instagram_link'] = trim($_POST['instagram_link'] ?? '');
+            $settings['whatsapp_link'] = trim($_POST['whatsapp_link'] ?? '');
+            $settings['currency'] = trim($_POST['currency'] ?? '৳');
             
             file_put_contents($settingsFile, json_encode($settings, JSON_PRETTY_PRINT));
             $success = "Settings updated successfully.";
