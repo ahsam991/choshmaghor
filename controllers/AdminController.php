@@ -236,6 +236,8 @@ class AdminController extends Controller {
             'users' => $users,
             'page'  => 'users',
         ]);
+    }
+
     // ─── Settings ──────────────────────────────────────────────────
     public function settings() {
         $settingsFile = APP_PATH . '/config/settings.json';
