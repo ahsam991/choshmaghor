@@ -77,6 +77,14 @@ if ($base_path !== '' && strpos($request_uri, $base_path) === 0) {
 }
 $path = trim($request_uri, '/');
 
+// Visitor Tracking
+if (!str_starts_with($path, 'assets/') && !str_starts_with($path, 'admin/')) {
+    logInfo('Page Visit', [
+        'path' => empty($path) ? '/' : $path,
+        'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown'
+    ]);
+}
+
 // Split path into segments for dynamic routing
 $segments = explode('/', $path);
 $controller_name = $segments[0] ?? '';
@@ -101,7 +109,8 @@ if (!empty($id)) {
 if ($controller_name === 'home' && $action === 'setLang') {
     $lang = $id ?: 'bn';
     $_SESSION['lang'] = in_array($lang, ['en', 'bn']) ? $lang : 'bn';
-    header('Location: ' . SITE_URL . '/' . ($_GET['redirect'] ?? ''));
+    $referer = $_SERVER['HTTP_REFERER'] ?? SITE_URL;
+    header('Location: ' . $referer);
     exit;
 }
 

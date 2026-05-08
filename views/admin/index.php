@@ -70,6 +70,39 @@
     </div>
 </div>
 
+<!-- Analytics Charts -->
+<div class="admin-charts-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-top: 20px;">
+    <!-- Revenue Chart -->
+    <div class="admin-card">
+        <div class="admin-card-header">
+            <div class="admin-card-title"><i class="fas fa-chart-line"></i> সাপ্তাহিক রাজস্ব (Weekly Revenue)</div>
+        </div>
+        <div class="admin-card-body" style="padding: 20px;">
+            <canvas id="revenueChart" height="100"></canvas>
+        </div>
+    </div>
+
+    <!-- Order Status Chart -->
+    <div class="admin-card">
+        <div class="admin-card-header">
+            <div class="admin-card-title"><i class="fas fa-chart-pie"></i> অর্ডার স্ট্যাটাস (Order Status)</div>
+        </div>
+        <div class="admin-card-body" style="padding: 20px; display: flex; justify-content: center;">
+            <canvas id="statusChart" height="200" style="max-height: 250px;"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Top Products Chart -->
+<div class="admin-card" style="margin-top: 20px;">
+    <div class="admin-card-header">
+        <div class="admin-card-title"><i class="fas fa-star"></i> শীর্ষ বিক্রীত পণ্য (Top Selling Products)</div>
+    </div>
+    <div class="admin-card-body" style="padding: 20px;">
+        <canvas id="topProductsChart" height="80"></canvas>
+    </div>
+</div>
+
 <!-- Recent Orders -->
 <div class="admin-card">
     <div class="admin-card-header">
@@ -150,3 +183,116 @@
 </div>
 
 <script>const SITE_URL = '<?= SITE_URL ?>';</script>
+
+<!-- Chart.js Integration -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Parse PHP data
+    const weeklyRevenueData = <?= isset($weeklyRevenueData) ? $weeklyRevenueData : '[]' ?>;
+    const orderStatusData = <?= isset($orderStatusData) ? $orderStatusData : '[]' ?>;
+    const topSellingData = <?= isset($topSellingData) ? $topSellingData : '[]' ?>;
+
+    // --- Weekly Revenue Chart ---
+    const revCtx = document.getElementById('revenueChart').getContext('2d');
+    const revLabels = weeklyRevenueData.map(item => item.date);
+    const revTotals = weeklyRevenueData.map(item => parseFloat(item.daily_total));
+
+    new Chart(revCtx, {
+        type: 'line',
+        data: {
+            labels: revLabels,
+            datasets: [{
+                label: 'রাজস্ব (Revenue ৳)',
+                data: revTotals,
+                borderColor: '#c9a84c',
+                backgroundColor: 'rgba(201, 168, 76, 0.1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // --- Order Status Chart ---
+    const statusCtx = document.getElementById('statusChart').getContext('2d');
+    
+    // Map status colors
+    const statusColors = {
+        'pending': '#f39c12',
+        'processing': '#3498db',
+        'completed': '#2ecc71',
+        'delivered': '#27ae60',
+        'cancelled': '#e74c3c'
+    };
+
+    const statLabels = orderStatusData.map(item => item.status.toUpperCase());
+    const statCounts = orderStatusData.map(item => parseInt(item.count));
+    const statBgColors = orderStatusData.map(item => statusColors[item.status.toLowerCase()] || '#95a5a6');
+
+    new Chart(statusCtx, {
+        type: 'doughnut',
+        data: {
+            labels: statLabels,
+            datasets: [{
+                data: statCounts,
+                backgroundColor: statBgColors,
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '70%',
+            plugins: {
+                legend: { position: 'right' }
+            }
+        }
+    });
+
+    // --- Top Products Chart ---
+    const topCtx = document.getElementById('topProductsChart').getContext('2d');
+    const topLabels = topSellingData.map(item => item.name);
+    const topSold = topSellingData.map(item => parseInt(item.total_sold));
+
+    new Chart(topCtx, {
+        type: 'bar',
+        data: {
+            labels: topLabels,
+            datasets: [{
+                label: 'বিক্রিত পরিমাণ (Total Sold)',
+                data: topSold,
+                backgroundColor: 'rgba(201, 168, 76, 0.8)',
+                borderColor: '#c9a84c',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: { beginAtZero: true, ticks: { stepSize: 1 } },
+                x: {
+                    ticks: {
+                        callback: function(value) {
+                            let lbl = this.getLabelForValue(value);
+                            return lbl.length > 20 ? lbl.substring(0, 20) + '...' : lbl;
+                        }
+                    }
+                }
+            }
+        }
+    });
+});
+</script>

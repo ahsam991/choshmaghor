@@ -42,13 +42,50 @@ class AdminController extends Controller {
             $stmt->execute();
             $recentOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+            // Fetch Weekly Revenue (Last 7 Days)
+            $stmtRevenue = $this->db->prepare("
+                SELECT DATE(created_at) as date, SUM(total_amount) as daily_total
+                FROM orders 
+                WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+                GROUP BY DATE(created_at)
+                ORDER BY DATE(created_at) ASC
+            ");
+            $stmtRevenue->execute();
+            $weeklyRevenueData = $stmtRevenue->fetchAll(PDO::FETCH_ASSOC);
+
+            // Fetch Order Status Counts
+            $stmtStatus = $this->db->prepare("
+                SELECT status, COUNT(*) as count 
+                FROM orders 
+                GROUP BY status
+            ");
+            $stmtStatus->execute();
+            $orderStatusData = $stmtStatus->fetchAll(PDO::FETCH_ASSOC);
+
+            // Fetch Top Selling Products
+            $stmtTopProducts = $this->db->prepare("
+                SELECT p.name, SUM(oi.quantity) as total_sold 
+                FROM order_items oi
+                JOIN products p ON oi.product_id = p.id
+                JOIN orders o ON oi.order_id = o.id
+                WHERE o.status != 'cancelled'
+                GROUP BY oi.product_id
+                ORDER BY total_sold DESC
+                LIMIT 5
+            ");
+            $stmtTopProducts->execute();
+            $topSellingData = $stmtTopProducts->fetchAll(PDO::FETCH_ASSOC);
+
             $this->render('admin/index', [
-                'page'         => 'dashboard',
-                'productCount' => $productCount,
-                'orderCount'   => $orderCount,
-                'userCount'    => $userCount,
-                'revenue'      => $revenue,
-                'recentOrders' => $recentOrders,
+                'page'              => 'dashboard',
+                'productCount'      => $productCount,
+                'orderCount'        => $orderCount,
+                'userCount'         => $userCount,
+                'revenue'           => $revenue,
+                'recentOrders'      => $recentOrders,
+                'weeklyRevenueData' => json_encode($weeklyRevenueData),
+                'orderStatusData'   => json_encode($orderStatusData),
+                'topSellingData'    => json_encode($topSellingData),
             ]);
         } catch (Exception $e) {
             $this->render('admin/index', [

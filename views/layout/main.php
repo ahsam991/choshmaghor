@@ -58,9 +58,11 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Hind+Siliguri:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="<?= asset('images/logo.png') ?>">
+    <link rel="apple-touch-icon" href="<?= asset('images/logo.png') ?>">
 
     <!-- CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
@@ -101,10 +103,20 @@
             </script>
     <?php endif; ?>
 
-    <!-- Theme Initialization to prevent flash -->
+    <!-- Theme & Language Initialization -->
     <script>
+        // Theme
         const savedTheme = localStorage.getItem('theme') || 'dark';
         document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        // Language Sync
+        const savedLang = localStorage.getItem('lang');
+        const currentLang = '<?= $_SESSION['lang'] ?? 'bn' ?>';
+        if (savedLang && savedLang !== currentLang) {
+            window.location.href = '<?= SITE_URL ?>/home/setLang/' + savedLang;
+        } else {
+            localStorage.setItem('lang', currentLang);
+        }
     </script>
 </head>
 
@@ -124,10 +136,10 @@
                     <!-- Language Switch -->
                     <div class="lang-switch d-inline-flex align-items-center gap-2">
                         <a href="<?= SITE_URL ?>/home/setLang/bn"
-                            class="nav-link p-0 <?= (!isset($_SESSION['lang']) || $_SESSION['lang'] === 'bn') ? 'active text-gold' : '' ?>">বাংলা</a>
+                            class="nav-link p-0 <?= (!isset($_SESSION['lang']) || $_SESSION['lang'] === 'bn') ? 'active text-gold fw-bold' : '' ?>" onclick="localStorage.setItem('lang', 'bn')">বাংলা</a>
                         <span class="text-dim">|</span>
                         <a href="<?= SITE_URL ?>/home/setLang/en"
-                            class="nav-link p-0 <?= (isset($_SESSION['lang']) && $_SESSION['lang'] === 'en') ? 'active text-gold' : '' ?>">EN</a>
+                            class="nav-link p-0 <?= (isset($_SESSION['lang']) && $_SESSION['lang'] === 'en') ? 'active text-gold fw-bold' : '' ?>" onclick="localStorage.setItem('lang', 'en')">EN</a>
                     </div>
 
                     <span class="text-dim mx-2">|</span>
