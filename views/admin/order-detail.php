@@ -1,6 +1,11 @@
 <div class="page-header">
-    <div class="container">
+    <div class="container d-flex justify-content-between align-items-center">
         <h1><i class="fas fa-receipt"></i> অর্ডার বিস্তারিত</h1>
+        <?php if ($order): ?>
+            <a href="<?= SITE_URL ?>/admin/invoice/<?= $order['id'] ?>" class="btn btn-gold" target="_blank">
+                <i class="fas fa-print me-2"></i> Print Cash Memo
+            </a>
+        <?php endif; ?>
     </div>
 </div>
 

@@ -11,11 +11,11 @@
         </button>
 
         <a href="<?= SITE_URL ?>/shop/product/<?= $product['id'] ?>" title="Buy <?= e($product['name']) ?> Online Bangladesh">
-            <img src="<?= asset('images/products/' . ($product['image_url'] ?? 'placeholder.png')) ?>" alt="<?= e($product['name']) ?> - Premium Sunglasses | ChoshmaZone" loading="lazy" onerror="this.src='<?= asset('images/placeholder.png') ?>'">
+            <img src="<?= asset('images/products/' . ($product['image_url'] ?? 'placeholder.png')) ?>?v=<?= time() ?>" alt="<?= e($product['name']) ?> - Premium Sunglasses | ChoshmaZone" loading="lazy" onerror="this.src='<?= asset('images/placeholder.png') ?>'">
         </a>
 
         <div class="product-overlay">
-            <button class="overlay-btn" onclick="addToCart('<?= $product['id'] ?>', '<?= e($product['name']) ?>', '<?= $product['discount_price'] > 0 ? $product['discount_price'] : $product['price'] ?>', '<?= asset('images/products/' . ($product['image_url'] ?? 'placeholder.png')) ?>', '<?= e($product['category_name'] ?? 'ChoshmaZone') ?>')">
+            <button class="overlay-btn" onclick="addToCart('<?= $product['id'] ?>', '<?= e($product['name']) ?>', '<?= $product['discount_price'] > 0 ? $product['discount_price'] : $product['price'] ?>', '<?= asset('images/products/' . ($product['image_url'] ?? 'placeholder.png')) ?>?v=<?= time() ?>', '<?= e($product['category_name'] ?? 'ChoshmaZone') ?>')">
                 <i class="fas fa-shopping-cart me-2"></i><?= __('add_to_cart') ?>
             </button>
         </div>
@@ -44,7 +44,7 @@
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
             </div>
-            <button class="add-cart-btn" onclick="addToCart('<?= $product['id'] ?>', '<?= e($product['name']) ?>', '<?= $product['discount_price'] > 0 ? $product['discount_price'] : $product['price'] ?>', '<?= asset('images/products/' . ($product['image_url'] ?? 'placeholder.png')) ?>', '<?= e($product['category_name'] ?? 'ChoshmaZone') ?>')" aria-label="Add <?= e($product['name']) ?> to cart">
+            <button class="add-cart-btn" onclick="addToCart('<?= $product['id'] ?>', '<?= e($product['name']) ?>', '<?= $product['discount_price'] > 0 ? $product['discount_price'] : $product['price'] ?>', '<?= asset('images/products/' . ($product['image_url'] ?? 'placeholder.png')) ?>?v=<?= time() ?>', '<?= e($product['category_name'] ?? 'ChoshmaZone') ?>')" aria-label="Add <?= e($product['name']) ?> to cart">
                 <i class="fas fa-plus"></i>
             </button>
         </div>

@@ -236,5 +236,52 @@ class AdminController extends Controller {
             'users' => $users,
             'page'  => 'users',
         ]);
+    // ─── Settings ──────────────────────────────────────────────────
+    public function settings() {
+        $settingsFile = APP_PATH . '/config/settings.json';
+        $settings = ['promo_end_time' => ''];
+        if (file_exists($settingsFile)) {
+            $settings = json_decode(file_get_contents($settingsFile), true) ?: $settings;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $settings['promo_end_time'] = trim($_POST['promo_end_time'] ?? '');
+            file_put_contents($settingsFile, json_encode($settings));
+            $success = "Settings updated successfully.";
+            $this->render('admin/settings', ['page' => 'settings', 'settings' => $settings, 'success' => $success]);
+            return;
+        }
+
+        $this->render('admin/settings', ['page' => 'settings', 'settings' => $settings]);
+    }
+
+    // ─── Invoice ───────────────────────────────────────────────────
+    public function invoice($orderId) {
+        $stmt = $this->db->prepare('SELECT o.*, u.name as user_name FROM orders o LEFT JOIN users u ON o.user_id = u.id WHERE o.id = ?');
+        $stmt->execute([$orderId]);
+        $order = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$order) {
+            header('Location: ' . SITE_URL . '/admin/orders');
+            exit;
+        }
+
+        $stmtItems = $this->db->prepare('
+            SELECT oi.*, p.name 
+            FROM order_items oi 
+            JOIN products p ON oi.product_id = p.id 
+            WHERE oi.order_id = ?
+        ');
+        $stmtItems->execute([$orderId]);
+        $items = $stmtItems->fetchAll(PDO::FETCH_ASSOC);
+
+        // Extract variables for the view
+        extract([
+            'order' => $order,
+            'items' => $items,
+            'page'  => 'orders'
+        ]);
+        
+        include APP_PATH . '/views/admin/invoice.php';
     }
 }

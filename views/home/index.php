@@ -158,6 +158,7 @@ $og_type = 'website';
 <?php endif; ?>
 
 <!-- Promo Banner -->
+<?php if (!empty($settings['promo_end_time'])): ?>
 <section class="promo-section">
     <div class="container">
         <div class="promo-banner">
@@ -167,17 +168,20 @@ $og_type = 'website';
                 <p class="promo-desc">যেকোনো ২টি সানগ্লাস কিনলে ১৫% ছাড়! আজই আপনার পছন্দেরটি সংগ্রহ করুন।</p>
                 <div class="promo-timer" id="promo-timer">
                     <div class="timer-box">
-                        <span class="timer-num t-h">05</span>
+                        <span class="timer-num" id="t-h">00</span>
                         <span class="timer-label">Hours</span>
                     </div>
                     <div class="timer-box">
-                        <span class="timer-num t-m">32</span>
+                        <span class="timer-num" id="t-m">00</span>
                         <span class="timer-label">Min</span>
                     </div>
                     <div class="timer-box">
-                        <span class="timer-num t-s">17</span>
+                        <span class="timer-num" id="t-s">00</span>
                         <span class="timer-label">Sec</span>
                     </div>
+                </div>
+                <div id="promo-expired" style="display:none;" class="mt-3">
+                    <h4 class="text-danger">Offer Expired!</h4>
                 </div>
                 <a href="<?= SITE_URL ?>/shop" class="btn btn-gold btn-lg mt-4">Shop Now</a>
             </div>
@@ -185,6 +189,38 @@ $og_type = 'website';
         </div>
     </div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const endTime = new Date("<?= date('Y-m-d\TH:i:s', strtotime($settings['promo_end_time'])) ?>").getTime();
+    const timerEl = document.getElementById('promo-timer');
+    const expiredEl = document.getElementById('promo-expired');
+    const th = document.getElementById('t-h');
+    const tm = document.getElementById('t-m');
+    const ts = document.getElementById('t-s');
+
+    const interval = setInterval(function() {
+        const now = new Date().getTime();
+        const distance = endTime - now;
+
+        if (distance < 0) {
+            clearInterval(interval);
+            timerEl.style.display = 'none';
+            expiredEl.style.display = 'block';
+            return;
+        }
+
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        th.textContent = hours.toString().padStart(2, '0');
+        tm.textContent = minutes.toString().padStart(2, '0');
+        ts.textContent = seconds.toString().padStart(2, '0');
+    }, 1000);
+});
+</script>
+<?php endif; ?>
 
 <!-- New Arrivals -->
 <?php if (!empty($new_arrivals)): ?>

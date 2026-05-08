@@ -195,6 +195,13 @@ switch ($controller_name) {
         $og_title = 'ChoshmaZone - Premium Sunglasses Store in Bangladesh';
         $og_type = 'website';
         
+        // Fetch settings
+        $settingsFile = APP_PATH . '/config/settings.json';
+        $settings = [];
+        if (file_exists($settingsFile)) {
+            $settings = json_decode(file_get_contents($settingsFile), true) ?: [];
+        }
+
         $controller = new Controller();
         $controller->render('home/index', [
             'categories' => $dbCategories,
@@ -203,7 +210,8 @@ switch ($controller_name) {
             'title' => $title,
             'meta_description' => $meta_description,
             'og_title' => $og_title,
-            'og_type' => $og_type
+            'og_type' => $og_type,
+            'settings' => $settings
         ]);
         break;
 
@@ -339,6 +347,16 @@ switch ($controller_name) {
                         'items' => $items,
                         'page' => 'orders'
                     ]);
+                } else {
+                    $controller->orders();
+                }
+                break;
+            case 'settings':
+                $controller->settings();
+                break;
+            case 'invoice':
+                if (!empty($id)) {
+                    $controller->invoice(intval($id));
                 } else {
                     $controller->orders();
                 }

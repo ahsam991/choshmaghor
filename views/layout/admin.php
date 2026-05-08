@@ -45,6 +45,9 @@
                 <i class="fas fa-users"></i> ব্যবহারকারী
             </a>
             <div class="nav-section">সেটিংস</div>
+            <a href="<?= SITE_URL ?>/admin/settings" class="nav-item <?= ($page ?? '') === 'settings' ? 'active' : '' ?>">
+                <i class="fas fa-cog"></i> সাইট সেটিংস
+            </a>
             <a href="<?= SITE_URL ?>" class="nav-item" target="_blank">
                 <i class="fas fa-external-link-alt"></i> সাইট দেখুন
             </a>

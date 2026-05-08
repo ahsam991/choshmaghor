@@ -15,11 +15,11 @@
         <!-- Gallery -->
         <div class="product-gallery">
             <div class="main-img-wrap">
-                <img src="<?= asset('images/products/' . ($product['image_url'] ?? 'placeholder.png')) ?>" alt="<?= e($product['name']) ?>" id="main-product-img" onerror="this.src='<?= asset('images/placeholder.png') ?>'">
+                <img src="<?= asset('images/products/' . ($product['image_url'] ?? 'placeholder.png')) ?>?v=<?= time() ?>" alt="<?= e($product['name']) ?>" id="main-product-img" onerror="this.src='<?= asset('images/placeholder.png') ?>'">
             </div>
             <div class="thumb-grid">
                 <div class="thumb-item active" onclick="updateMainImg(this)">
-                    <img src="<?= asset('images/products/' . ($product['image_url'] ?? 'placeholder.png')) ?>" alt="" onerror="this.src='<?= asset('images/placeholder.png') ?>'">
+                    <img src="<?= asset('images/products/' . ($product['image_url'] ?? 'placeholder.png')) ?>?v=<?= time() ?>" alt="" onerror="this.src='<?= asset('images/placeholder.png') ?>'">
                 </div>
                 <!-- Mock thumbs if any -->
                 <div class="thumb-item" onclick="updateMainImg(this)">
