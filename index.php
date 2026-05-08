@@ -106,11 +106,21 @@ switch ($controller_name) {
         $catStmt->execute();
         $dbCategories = $catStmt->fetchAll(PDO::FETCH_ASSOC);
         
+        // SEO optimization for home page
+        $title = 'Buy Premium Sunglasses Online in Bangladesh | ChoshmaZone';
+        $meta_description = 'Shop premium sunglasses online in Bangladesh at ChoshmaZone. 100% original UV400 protection eyewear for men & women. Best price, free shipping, cash on delivery. Explore Ray-Ban, Oakley style sunglasses in Dhaka.';
+        $og_title = 'ChoshmaZone - Premium Sunglasses Store in Bangladesh';
+        $og_type = 'website';
+        
         $controller = new Controller();
         $controller->render('home/index', [
             'categories' => $dbCategories,
             'featured' => $featured,
-            'new_arrivals' => $featured
+            'new_arrivals' => $featured,
+            'title' => $title,
+            'meta_description' => $meta_description,
+            'og_title' => $og_title,
+            'og_type' => $og_type
         ]);
         break;
 

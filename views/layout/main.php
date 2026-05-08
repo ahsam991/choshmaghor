@@ -3,10 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= isset($title) ? e($title) : 'ChoshmaZone - Premium Sunglasses' ?></title>
     
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="বাংলাদেশের সেরা অনলাইন সানগ্লাস স্টোর। প্রিমিয়াম কোয়ালিটির সানগ্লাস সেরা দামে পাচ্ছেন শুধুমাত্র চশমাZone-এ।">
+    <!-- Dynamic Title with Primary Keywords -->
+    <title><?= isset($title) ? e($title) . ' | ' : '' ?>ChoshmaZone - Premium Sunglasses Online in Bangladesh | Original Ray-Ban, Oakley Style</title>
+    
+    <!-- Primary SEO Meta Tags -->
+    <meta name="description" content="<?= isset($meta_description) ? e($meta_description) : 'Buy premium sunglasses online in Bangladesh at ChoshmaZone. 100% original UV protection eyewear for men & women. Best price, fast delivery in Dhaka & nationwide. Cash on Delivery available.' ?>">
+    <meta name="keywords" content="sunglasses online bangladesh, premium sunglasses, original sunglasses dhaka, uv protection glasses, men's sunglasses, women's sunglasses, choshmazone, চশমা, সানগ্লাস, অনলাইন শপিং">
+    <meta name="author" content="ChoshmaZone">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="<?= (isset($canonical_url) ? e($canonical_url) : SITE_URL . $_SERVER['REQUEST_URI']) ?>">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="<?= isset($og_type) ? e($og_type) : 'website' ?>">
+    <meta property="og:url" content="<?= SITE_URL . $_SERVER['REQUEST_URI'] ?>">
+    <meta property="og:title" content="<?= isset($og_title) ? e($og_title) : 'ChoshmaZone - Premium Sunglasses Online in Bangladesh' ?>">
+    <meta property="og:description" content="<?= isset($meta_description) ? e($meta_description) : 'বাংলাদেশের সেরা প্রিমিয়াম সানগ্লাস কালেকশন। ১০০% অরিজিনাল, ইউভি প্রোটেকশন, ফ্রি ডেলিভারি।' ?>">
+    <meta property="og:image" content="<?= isset($og_image) ? e($og_image) : asset('images/og-image.jpg') ?>">
+    <meta property="og:site_name" content="ChoshmaZone">
+    <meta property="og:locale" content="<?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'en_BD' : 'bn_BD' ?>">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="<?= SITE_URL . $_SERVER['REQUEST_URI'] ?>">
+    <meta name="twitter:title" content="<?= isset($og_title) ? e($og_title) : 'ChoshmaZone - Premium Sunglasses Online' ?>">
+    <meta name="twitter:description" content="<?= isset($meta_description) ? e($meta_description) : 'Shop premium sunglasses with UV protection. Fast delivery across Bangladesh.' ?>">
+    <meta name="twitter:image" content="<?= isset($og_image) ? e($og_image) : asset('images/og-image.jpg') ?>">
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="theme-color" content="#D4AF37">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="ChoshmaZone">
+    
+    <!-- Geo Tags for Local SEO -->
+    <meta name="geo.region" content="BD">
+    <meta name="geo.placename" content="Dhaka">
+    <meta name="geo.position" content="23.8103;90.4125">
+    <meta name="ICBM" content="23.8103, 90.4125">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,6 +54,40 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="<?= asset('css/style.css') ?>" rel="stylesheet">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="<?= asset('images/logo.png') ?>" as="image">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    
+    <!-- Structured Data (JSON-LD) - Organization -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "ChoshmaZone",
+        "url": "<?= SITE_URL ?>",
+        "logo": "<?= asset('images/logo.png') ?>",
+        "description": "Premium sunglasses online store in Bangladesh",
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+880-1889-688034",
+            "contactType": "Customer Service",
+            "areaServed": "BD",
+            "availableLanguage": ["Bengali", "English"]
+        },
+        "sameAs": [
+            "https://www.facebook.com/profile.php?id=100066797659136",
+            "https://wa.me/8801889688034"
+        ]
+    }
+    </script>
+    
+    <?php if (isset($structured_data)): ?>
+    <script type="application/ld+json">
+    <?= $structured_data ?>
+    </script>
+    <?php endif; ?>
 </head>
 <body>
 
@@ -205,4 +276,4 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script src="<?= asset('js/app.js') ?>"></script>
 </body>
-</html>
+</html>
