@@ -91,8 +91,11 @@ if (!empty($id)) {
 // Language switching
 if ($controller_name === 'home' && $action === 'setLang') {
     $lang = $id ?: 'bn';
-    $_SESSION['lang'] = in_array($lang, ['en', 'bn']) ? $lang : 'bn';
-    header('Location: ' . SITE_URL . '/' . ($_GET['redirect'] ?? ''));
+    if (in_array($lang, ['en', 'bn'])) {
+        $_SESSION['lang'] = $lang;
+    }
+    $redirect = $_GET['redirect'] ?? SITE_URL . '/';
+    header('Location: ' . $redirect);
     exit;
 }
 

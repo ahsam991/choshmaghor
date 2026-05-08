@@ -117,7 +117,8 @@ class AdminController extends Controller {
 
     // ─── Edit Product ─────────────────────────────────────────────
     public function editProduct() {
-        $product_id = intval($GLOBALS['product_id'] ?? 0);
+        // Get product ID from URL segment or POST
+        $product_id = intval($_GET['id'] ?? $_POST['product_id'] ?? $GLOBALS['product_id'] ?? 0);
         $categories = $this->getCategories();
 
         if (!$product_id) {
@@ -159,8 +160,11 @@ class AdminController extends Controller {
 
             if (empty($data['name'])) {
                 $error = 'পণ্যের নাম আবশ্যক।';
+            } elseif ($data['price'] <= 0) {
+                $error = 'সঠিক মূল্য দিন।';
             } elseif ($this->productModel->update($product_id, $data)) {
-                header('Location: ' . SITE_URL . '/admin/products?success=1');
+                $_SESSION['success_message'] = 'পণ্য সফলভাবে আপডেট হয়েছে!';
+                header('Location: ' . SITE_URL . '/admin/products');
                 exit;
             } else {
                 $error = 'পণ্য আপডেট করতে সমস্যা হয়েছে।';

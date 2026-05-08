@@ -115,7 +115,7 @@
                         <a href="<?= SITE_URL ?>/account" class="text-gold fw-600"><i class="fas fa-user-circle me-1"></i><?= e($_SESSION['user_name']) ?></a>
                     </div>
                 <?php else: ?>
-                    <a href="<?= SITE_URL ?>/auth/login"><i class="fas fa-sign-in-alt me-1 text-gold"></i> <?= __('login') ?></a>
+                    <a href="<?= SITE_URL ?>/auth/login"><i class="fas fa-sign-in-alt me-1 text-gold"></i> <?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Login' : 'লগইন' ?></a>
                 <?php endif; ?>
             </div>
         </div>
@@ -134,17 +134,17 @@
 
             <!-- Nav -->
             <nav class="nav d-none d-lg-flex">
-                <a href="<?= SITE_URL ?>" class="nav-link <?= isActive('') ?>"><?= __('home') ?></a>
+                <a href="<?= SITE_URL ?>" class="nav-link <?= isActive('') ?>"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Home' : 'হোম' ?></a>
                 <div class="nav-item">
-                    <a href="<?= SITE_URL ?>/shop" class="nav-link <?= isActive('shop') ?>"><?= __('shop') ?> <i class="fas fa-chevron-down ms-1" style="font-size: 0.7rem;"></i></a>
+                    <a href="<?= SITE_URL ?>/shop" class="nav-link <?= isActive('shop') ?>"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Shop' : 'শপ' ?> <i class="fas fa-chevron-down ms-1" style="font-size: 0.7rem;"></i></a>
                     <div class="dropdown">
-                        <a href="<?= SITE_URL ?>/shop?gender=male"><?= __('mens') ?></a>
-                        <a href="<?= SITE_URL ?>/shop?gender=female"><?= __('womens') ?></a>
-                        <a href="<?= SITE_URL ?>/shop?gender=unisex"><?= __('unisex') ?></a>
+                        <a href="<?= SITE_URL ?>/shop?gender=male"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? "Men's" : 'পুরুষ' ?></a>
+                        <a href="<?= SITE_URL ?>/shop?gender=female"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? "Women's" : 'মহিলা' ?></a>
+                        <a href="<?= SITE_URL ?>/shop?gender=unisex"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Unisex' : 'ইউনিসেক্স' ?></a>
                     </div>
                 </div>
-                <a href="<?= SITE_URL ?>/about" class="nav-link <?= isActive('about') ?>"><?= __('about') ?></a>
-                <a href="<?= SITE_URL ?>/contact" class="nav-link <?= isActive('contact') ?>"><?= __('contact') ?></a>
+                <a href="<?= SITE_URL ?>/about" class="nav-link <?= isActive('about') ?>"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'About' : 'আমাদের সম্পর্কে' ?></a>
+                <a href="<?= SITE_URL ?>/contact" class="nav-link <?= isActive('contact') ?>"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Contact' : 'যোগাযোগ' ?></a>
             </nav>
 
             <!-- Actions -->
@@ -173,17 +173,17 @@
     <div class="logo mb-4 px-3">
         <div class="logo-text">CHOSHMA<span>ZONE</span></div>
     </div>
-    <a href="<?= SITE_URL ?>" class="nav-link active"><?= __('home') ?></a>
-    <a href="<?= SITE_URL ?>/shop" class="nav-link"><?= __('shop') ?></a>
-    <a href="<?= SITE_URL ?>/about" class="nav-link"><?= __('about') ?></a>
-    <a href="<?= SITE_URL ?>/contact" class="nav-link"><?= __('contact') ?></a>
+    <a href="<?= SITE_URL ?>" class="nav-link active"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Home' : 'হোম' ?></a>
+    <a href="<?= SITE_URL ?>/shop" class="nav-link"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Shop' : 'শপ' ?></a>
+    <a href="<?= SITE_URL ?>/about" class="nav-link"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'About' : 'আমাদের সম্পর্কে' ?></a>
+    <a href="<?= SITE_URL ?>/contact" class="nav-link"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Contact' : 'যোগাযোগ' ?></a>
     <hr class="border-dim mx-3 my-3">
     <?php if ($this->isLoggedIn()): ?>
-        <a href="<?= SITE_URL ?>/account" class="nav-link"><i class="fas fa-user me-2 text-gold"></i><?= __('account') ?></a>
-        <a href="<?= SITE_URL ?>/auth/logout" class="nav-link text-danger"><i class="fas fa-sign-out-alt me-2"></i><?= __('logout') ?></a>
+        <a href="<?= SITE_URL ?>/account" class="nav-link"><i class="fas fa-user me-2 text-gold"></i><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Account' : 'অ্যাকাউন্ট' ?></a>
+        <a href="<?= SITE_URL ?>/auth/logout" class="nav-link text-danger"><i class="fas fa-sign-out-alt me-2"></i><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Logout' : 'লগআউট' ?></a>
     <?php else: ?>
-        <a href="<?= SITE_URL ?>/auth/login" class="nav-link"><i class="fas fa-sign-in-alt me-2 text-gold"></i><?= __('login') ?></a>
-        <a href="<?= SITE_URL ?>/auth/register" class="nav-link"><i class="fas fa-user-plus me-2 text-gold"></i><?= __('register') ?></a>
+        <a href="<?= SITE_URL ?>/auth/login" class="nav-link"><i class="fas fa-sign-in-alt me-2 text-gold"></i><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Login' : 'লগইন' ?></a>
+        <a href="<?= SITE_URL ?>/auth/register" class="nav-link"><i class="fas fa-user-plus me-2 text-gold"></i><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Register' : 'রেজিস্ট্রেশন' ?></a>
     <?php endif; ?>
 </div>
 <div class="overlay" id="overlay"></div>
@@ -217,18 +217,18 @@
                     </div>
                 </div>
                 <div>
-                    <h6 class="footer-heading"><?= __('quick_links') ?></h6>
+                    <h6 class="footer-heading"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Quick Links' : 'কুইক লিংকস' ?></h6>
                     <ul class="footer-links">
-                        <li><a href="<?= SITE_URL ?>"><?= __('home') ?></a></li>
-                        <li><a href="<?= SITE_URL ?>/shop"><?= __('shop') ?></a></li>
-                        <li><a href="<?= SITE_URL ?>/about"><?= __('about') ?></a></li>
-                        <li><a href="<?= SITE_URL ?>/contact"><?= __('contact') ?></a></li>
+                        <li><a href="<?= SITE_URL ?>"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Home' : 'হোম' ?></a></li>
+                        <li><a href="<?= SITE_URL ?>/shop"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Shop' : 'শপ' ?></a></li>
+                        <li><a href="<?= SITE_URL ?>/about"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'About' : 'আমাদের সম্পর্কে' ?></a></li>
+                        <li><a href="<?= SITE_URL ?>/contact"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Contact' : 'যোগাযোগ' ?></a></li>
                     </ul>
                 </div>
                 <div>
-                    <h6 class="footer-heading"><?= __('customer_service') ?></h6>
+                    <h6 class="footer-heading"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Customer Service' : 'গ্রাহক সেবা' ?></h6>
                     <ul class="footer-links">
-                        <li><a href="<?= SITE_URL ?>/account"><?= __('account') ?></a></li>
+                        <li><a href="<?= SITE_URL ?>/account"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Account' : 'অ্যাকাউন্ট' ?></a></li>
                         <li><a href="<?= SITE_URL ?>/account/orders"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Track Orders' : 'অর্ডার ট্র্যাক' ?></a></li>
                         <li><a href="<?= SITE_URL ?>/contact"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Return Policy' : 'রিটার্ন পলিসি' ?></a></li>
                         <li><a href="<?= SITE_URL ?>/contact"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Help Center' : 'সাহায্য কেন্দ্র' ?></a></li>
@@ -258,7 +258,7 @@
     </div>
     <div class="footer-bottom">
         <div class="container">
-            <p>&copy; <?= date('Y') ?> ChoshmaZone. <?= __('rights_reserved') ?>.</p>
+            <p>&copy; <?= date('Y') ?> ChoshmaZone. <?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'All rights reserved.' : 'সর্বস্বত্ব সংরক্ষিত।' ?></p>
             <div class="footer-payments">
                 <span class="payment-icon">bKash</span>
                 <span class="payment-icon">Nagad</span>

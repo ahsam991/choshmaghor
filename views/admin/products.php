@@ -4,7 +4,7 @@
         <h1 class="admin-page-title"><i class="fas fa-glasses"></i> পণ্য পরিচালনা</h1>
         <p class="admin-page-sub">সব পণ্য দেখুন, সম্পাদনা করুন বা মুছুন</p>
     </div>
-    <a href="<?= SITE_URL ?>/admin/addProduct" class="btn btn-gold">
+    <a href="<?= SITE_URL ?>/admin/add-product" class="btn btn-gold">
         <i class="fas fa-plus"></i> নতুন পণ্য যোগ করুন
     </a>
 </div>
@@ -12,6 +12,10 @@
 <?php if (isset($_GET['success'])): ?>
 <div class="alert alert-success mb-4"><i class="fas fa-check-circle me-2"></i> সফলভাবে সম্পন্ন হয়েছে!</div>
 <?php endif; ?>
+
+<?php if (isset($_SESSION['success_message'])): ?>
+<div class="alert alert-success mb-4"><i class="fas fa-check-circle me-2"></i><?= e($_SESSION['success_message']) ?></div>
+<?php unset($_SESSION['success_message']); endif; ?>
 
 <div class="admin-card">
     <div class="admin-card-header">
