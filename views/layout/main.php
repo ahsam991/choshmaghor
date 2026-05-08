@@ -207,7 +207,9 @@
                     <div class="footer-logo">
                         <div class="logo-text">CHOSHMA<span>ZONE</span></div>
                     </div>
-                    <p class="footer-desc">বাংলাদেশের সেরা অনলাইন সানগ্লাস স্টোর। প্রিমিয়াম কোয়ালিটির সানগ্লাস সেরা দামে পাচ্ছেন শুধুমাত্র চশমাZone-এ।</p>
+                    <p class="footer-desc"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 
+                        'Bangladesh\'s premier online sunglasses store. Get premium quality sunglasses at the best prices only at ChoshmaZone. 100% authentic UV400 protection eyewear with fast nationwide delivery.' : 
+                        'বাংলাদেশের সেরা অনলাইন সানগ্লাস স্টোর। প্রিমিয়াম কোয়ালিটির সানগ্লাস সেরা দামে পাচ্ছেন শুধুমাত্র চশমাZone-এ।' ?></p>
                     <div class="footer-social">
                         <a href="https://www.facebook.com/profile.php?id=100066797659136" target="_blank" class="social-btn"><i class="fab fa-facebook-f"></i></a>
                         <a href="https://wa.me/8801889688034" target="_blank" class="social-btn"><i class="fab fa-whatsapp"></i></a>
@@ -227,16 +229,16 @@
                     <h6 class="footer-heading"><?= __('customer_service') ?></h6>
                     <ul class="footer-links">
                         <li><a href="<?= SITE_URL ?>/account"><?= __('account') ?></a></li>
-                        <li><a href="<?= SITE_URL ?>/account/orders">অর্ডার ট্র্যাক</a></li>
-                        <li><a href="<?= SITE_URL ?>/contact">রিটার্ন পলিসি</a></li>
-                        <li><a href="<?= SITE_URL ?>/contact">সাহায্য কেন্দ্র</a></li>
+                        <li><a href="<?= SITE_URL ?>/account/orders"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Track Orders' : 'অর্ডার ট্র্যাক' ?></a></li>
+                        <li><a href="<?= SITE_URL ?>/contact"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Return Policy' : 'রিটার্ন পলিসি' ?></a></li>
+                        <li><a href="<?= SITE_URL ?>/contact"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Help Center' : 'সাহায্য কেন্দ্র' ?></a></li>
                     </ul>
                 </div>
                 <div>
-                    <h6 class="footer-heading">যোগাযোগ করুন</h6>
+                    <h6 class="footer-heading"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Contact Us' : 'যোগাযোগ করুন' ?></h6>
                     <div class="footer-contact-item">
                         <i class="fas fa-map-marker-alt fci-icon"></i>
-                        <span class="fci-text">ঢাকা, বাংলাদেশ</span>
+                        <span class="fci-text"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Dhaka, Bangladesh' : 'ঢাকা, বাংলাদেশ' ?></span>
                     </div>
                     <div class="footer-contact-item">
                         <i class="fas fa-phone fci-icon"></i>
