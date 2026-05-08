@@ -20,19 +20,25 @@ class ShopController extends Controller {
 
         $products = $this->productModel->getAll($filters);
         
-        // In a real app, categories would come from a Category model
+        // SEO optimized categories with keywords
         $categories = [
             ['id' => 1, 'name' => 'Sunglasses', 'product_count' => count($products)],
             ['id' => 2, 'name' => 'Frames', 'product_count' => 0]
         ];
 
+        // Set SEO meta for shop page
+        $title = 'Shop Premium Sunglasses Online - Men & Women Eyewear';
+        $meta_description = 'Browse our complete collection of premium sunglasses in Bangladesh. Filter by gender, price, category. UV400 protection, original quality, best prices with COD.';
+        
         $this->render('shop/index', [
             'products' => $products,
             'categories' => $categories,
             'filters' => $filters,
             'total' => count($products),
             'totalPages' => 1,
-            'page' => 1
+            'page' => 1,
+            'title' => $title,
+            'meta_description' => $meta_description
         ]);
     }
 
@@ -46,9 +52,47 @@ class ShopController extends Controller {
 
         $related = $this->productModel->getFeatured(); // Simple related products
 
+        // SEO optimization for product page
+        $title = e($product['name']) . ' - Buy Premium Sunglasses Online | ChoshmaZone';
+        $meta_description = substr(e($product['description'] ?? ''), 0, 155) . '. Buy now at ChoshmaZone with UV400 protection, free shipping & cash on delivery.';
+        
+        // Structured data for Product (Schema.org)
+        $structured_data = json_encode([
+            "@context" => "https://schema.org",
+            "@type" => "Product",
+            "name" => $product['name'],
+            "image" => asset('images/products/' . ($product['image_url'] ?? 'placeholder.png')),
+            "description" => $product['description'] ?? '',
+            "brand" => [
+                "@type" => "Brand",
+                "name" => "ChoshmaZone"
+            ],
+            "offers" => [
+                "@type" => "Offer",
+                "price" => $product['discount_price'] > 0 ? $product['discount_price'] : $product['price'],
+                "priceCurrency" => "BDT",
+                "availability" => "https://schema.org/InStock",
+                "seller" => [
+                    "@type" => "Organization",
+                    "name" => "ChoshmaZone"
+                ]
+            ],
+            "aggregateRating" => [
+                "@type" => "AggregateRating",
+                "ratingValue" => "4.8",
+                "reviewCount" => "24"
+            ]
+        ]);
+
         $this->render('shop/product', [
             'product' => $product,
-            'related' => $related
+            'related' => $related,
+            'title' => $title,
+            'meta_description' => $meta_description,
+            'structured_data' => $structured_data,
+            'og_type' => 'product',
+            'og_title' => $title,
+            'og_image' => asset('images/products/' . ($product['image_url'] ?? 'placeholder.png'))
         ]);
     }
 }

@@ -1,3 +1,11 @@
+<?php
+// SEO Optimization for Home Page
+$title = 'Buy Premium Sunglasses Online in Bangladesh';
+$meta_description = 'Shop premium sunglasses online in Bangladesh at ChoshmaZone. 100% original UV400 protection eyewear for men & women. Best price, free shipping, cash on delivery. Explore Ray-Ban, Oakley style sunglasses in Dhaka.';
+$og_title = 'ChoshmaZone - Premium Sunglasses Store in Bangladesh';
+$og_type = 'website';
+?>
+
 <!-- Hero Section -->
 <section class="hero">
     <div class="hero-bg"></div>
@@ -10,14 +18,14 @@
             <div class="col-lg-7">
                 <div class="hero-content">
                     <div class="hero-badge">
-                        <span class="badge-dot"></span> ✨ নতুন কালেকশন ২০২৪
+                        <span class="badge-dot"></span> ✨ নতুন কালেকশন ২০২৪ - New Collection
                     </div>
                     <h1 class="hero-title">
                         Discover Your <br>
                         <span class="gold-text">Signature Style</span>
                     </h1>
                     <p class="hero-sub">
-                        বাংলাদেশের সেরা প্রিমিয়াম সানগ্লাস কালেকশন। আমাদের প্রতিটি পণ্য আপনার আভিজাত্য এবং রুচির পরিচয় বহন করে।
+                        বাংলাদেশের সেরা প্রিমিয়াম সানগ্লাস কালেকশন। আমাদের প্রতিটি পণ্য আপনার আভিজাত্য এবং রুচির পরিচয় বহন করে। ১০০% ইউভি প্রোটেকশন সহ অরিজিনাল সানগ্লাস।
                     </p>
                     <div class="hero-cta">
                         <a href="<?= SITE_URL ?>/shop" class="btn btn-gold btn-lg"><?= __('shop_now') ?> <i class="fas fa-arrow-right ms-2"></i></a>
@@ -42,7 +50,7 @@
             <div class="col-lg-5 d-none d-lg-block">
                 <div class="hero-visual">
                     <div class="hero-img-wrap">
-                        <img src="<?= asset('images/hero-glasses.png') ?>" alt="Premium Sunglasses" class="hero-img" onerror="this.src='<?= asset('images/placeholder.png') ?>'">
+                        <img src="<?= asset('images/hero-glasses.png') ?>" alt="Premium Sunglasses Online Bangladesh - ChoshmaZone" class="hero-img" onerror="this.src='<?= asset('images/placeholder.png') ?>'">
                     </div>
                     <div class="hero-floating-badge badge-1">
                         <div class="hfb-icon text-gold">🕶️</div>
@@ -104,12 +112,12 @@
 <section class="section">
     <div class="container">
         <div class="section-header">
-            <span class="section-tag">Categories</span>
+            <span class="section-tag">Categories - Shop by Type</span>
             <h2 class="section-title">Shop by <span>Category</span></h2>
             <div class="section-line">
                 <div class="section-line-dot"></div>
             </div>
-            <p class="section-desc">আপনার পছন্দের ক্যাটাগরি বেছে নিন এবং শুরু করুন কেনাকাটা</p>
+            <p class="section-desc">আপনার পছন্দের ক্যাটাগরি বেছে নিন এবং শুরু করুন কেনাকাটা। Men's sunglasses, women's sunglasses, unisex eyewear - সব ধরনের চশমা পাচ্ছেন একসাথে।</p>
         </div>
         
         <div class="categories-grid">
@@ -117,7 +125,7 @@
             $cat_icons = [1 => '🕶️', 2 => '👩', 3 => '👨', 4 => '✨'];
             foreach ($categories as $cat): 
             ?>
-            <a href="<?= SITE_URL ?>/shop?category=<?= $cat['id'] ?>" class="category-card">
+            <a href="<?= SITE_URL ?>/shop?category=<?= $cat['id'] ?>" class="category-card" title="Buy <?= e($cat['name']) ?> Online Bangladesh">
                 <div class="cat-icon"><?= $cat_icons[$cat['id']] ?? '🕶️' ?></div>
                 <div class="cat-name"><?= e($cat['name']) ?></div>
                 <div class="cat-count"><?= $cat['product_count'] ?> Products</div>
@@ -133,10 +141,11 @@
     <div class="container">
         <div class="section-header d-flex justify-content-between align-items-end text-start">
             <div>
-                <span class="section-tag">Featured</span>
+                <span class="section-tag">Featured - Best Selling Sunglasses</span>
                 <h2 class="section-title">Exclusive <span>Collection</span></h2>
+                <p class="text-dim mt-2" style="max-width: 600px;">আমাদের এক্সক্লুসিভ কালেকশনে পাচ্ছেন প্রিমিয়াম কোয়ালিটির সানগ্লাস যা আপনার ব্যক্তিত্বকে করে তুলবে আরও আকর্ষণীয়। UV400 প্রোটেকশন সহ অরিজিনাল চশমা।</p>
             </div>
-            <a href="<?= SITE_URL ?>/shop" class="btn btn-outline-gold mb-3">View All <i class="fas fa-arrow-right ms-2"></i></a>
+            <a href="<?= SITE_URL ?>/shop" class="btn btn-outline-gold mb-3" title="View All Premium Sunglasses">View All <i class="fas fa-arrow-right ms-2"></i></a>
         </div>
         
         <div class="products-grid">
@@ -182,11 +191,12 @@
 <section class="section">
     <div class="container">
         <div class="section-header">
-            <span class="section-tag">New Arrivals</span>
+            <span class="section-tag">New Arrivals - Latest Sunglasses 2024</span>
             <h2 class="section-title">Latest <span>Styles</span></h2>
             <div class="section-line">
                 <div class="section-line-dot"></div>
             </div>
+            <p class="section-desc" style="max-width: 700px;">নতুন কালেকশন ২০২৪ - আমাদের লেটেস্ট স্টাইলের সানগ্লাসগুলো এখন আপনার হাতের নাগালে। ট্রেন্ডি ডিজাইন, প্রিমিয়াম কোয়ালিটি এবং সাশ্রয়ী মূল্যে কিনুন অনলাইনে।</p>
         </div>
         
         <div class="products-grid">
@@ -196,4 +206,4 @@
         </div>
     </div>
 </section>
-<?php endif; ?>
+<?php endif; ?>

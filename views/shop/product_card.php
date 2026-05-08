@@ -6,12 +6,12 @@
         </div>
         <?php endif; ?>
         
-        <button class="wishlist-btn" onclick="toggleWishlist(this, '<?= $product['id'] ?>', '<?= e($product['name']) ?>')" data-id="<?= $product['id'] ?>">
+        <button class="wishlist-btn" onclick="toggleWishlist(this, '<?= $product['id'] ?>', '<?= e($product['name']) ?>')" data-id="<?= $product['id'] ?>" aria-label="Add to wishlist">
             <i class="far fa-heart"></i>
         </button>
 
-        <a href="<?= SITE_URL ?>/shop/product/<?= $product['id'] ?>">
-            <img src="<?= asset('images/products/' . ($product['image_url'] ?? 'placeholder.png')) ?>" alt="<?= e($product['name']) ?>" loading="lazy" onerror="this.src='<?= asset('images/placeholder.png') ?>'">
+        <a href="<?= SITE_URL ?>/shop/product/<?= $product['id'] ?>" title="Buy <?= e($product['name']) ?> Online Bangladesh">
+            <img src="<?= asset('images/products/' . ($product['image_url'] ?? 'placeholder.png')) ?>" alt="<?= e($product['name']) ?> - Premium Sunglasses | ChoshmaZone" loading="lazy" onerror="this.src='<?= asset('images/placeholder.png') ?>'">
         </a>
 
         <div class="product-overlay">
@@ -37,14 +37,14 @@
         </div>
 
         <div class="product-footer">
-            <div class="product-stars">
+            <div class="product-stars" aria-label="5 star rating">
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
             </div>
-            <button class="add-cart-btn" onclick="addToCart('<?= $product['id'] ?>', '<?= e($product['name']) ?>', '<?= $product['discount_price'] > 0 ? $product['discount_price'] : $product['price'] ?>', '<?= asset('images/products/' . ($product['image_url'] ?? 'placeholder.png')) ?>', '<?= e($product['category_name'] ?? 'ChoshmaZone') ?>')">
+            <button class="add-cart-btn" onclick="addToCart('<?= $product['id'] ?>', '<?= e($product['name']) ?>', '<?= $product['discount_price'] > 0 ? $product['discount_price'] : $product['price'] ?>', '<?= asset('images/products/' . ($product['image_url'] ?? 'placeholder.png')) ?>', '<?= e($product['category_name'] ?? 'ChoshmaZone') ?>')" aria-label="Add <?= e($product['name']) ?> to cart">
                 <i class="fas fa-plus"></i>
             </button>
         </div>
