@@ -18,8 +18,17 @@ function asset($path) {
 }
 
 function __($key) {
-    // Translation logic could be expanded here
-    return $key; 
+    static $translations = null;
+    if ($translations === null) {
+        $lang = $_SESSION['lang'] ?? 'bn';
+        $file = __DIR__ . '/lang/' . $lang . '.php';
+        if (file_exists($file)) {
+            $translations = require $file;
+        } else {
+            $translations = [];
+        }
+    }
+    return $translations[$key] ?? $key; 
 }
 
 function formatPrice($price) {
@@ -83,7 +92,7 @@ if (!empty($id)) {
         $GLOBALS['order_id'] = intval($id);
     } elseif ($controller_name === 'account' && $action === 'order') {
         $GLOBALS['order_id'] = intval($id);
-    } elseif ($controller_name === 'admin' && $action === 'edit-product') {
+    } elseif ($controller_name === 'admin' && ($action === 'edit-product' || $action === 'editProduct')) {
         $GLOBALS['product_id'] = intval($id);
     }
 }

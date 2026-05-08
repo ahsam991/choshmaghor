@@ -1,6 +1,33 @@
 // ChoshmaZone - Premium JS (Integrated with PHP Backend)
 
 document.addEventListener('DOMContentLoaded', () => {
+    
+    // ===== THEME TOGGLE =====
+    const themeBtn = document.getElementById('theme-toggle');
+    const themeIcon = themeBtn ? themeBtn.querySelector('i') : null;
+    
+    function updateThemeIcon(theme) {
+        if (!themeIcon) return;
+        if (theme === 'light') {
+            themeIcon.className = 'fas fa-sun';
+        } else {
+            themeIcon.className = 'fas fa-moon';
+        }
+    }
+
+    // Initialize icon
+    updateThemeIcon(document.documentElement.getAttribute('data-theme') || 'dark');
+
+    if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+            let currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            let newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+    }
 
     // ===== HEADER SCROLL =====
     const header = document.querySelector('.header');

@@ -77,35 +77,35 @@ class Product {
         $updates = [];
         $params = ['id' => $id];
 
-        if (isset($data['name'])) {
+        if (array_key_exists('name', $data)) {
             $updates[] = "name = :name";
             $params['name'] = $data['name'];
         }
-        if (isset($data['description'])) {
+        if (array_key_exists('description', $data)) {
             $updates[] = "description = :description";
             $params['description'] = $data['description'];
         }
-        if (isset($data['price'])) {
+        if (array_key_exists('price', $data)) {
             $updates[] = "price = :price";
             $params['price'] = $data['price'];
         }
-        if (isset($data['discount_price'])) {
+        if (array_key_exists('discount_price', $data)) {
             $updates[] = "discount_price = :discount_price";
             $params['discount_price'] = $data['discount_price'];
         }
-        if (isset($data['category_id'])) {
+        if (array_key_exists('category_id', $data)) {
             $updates[] = "category_id = :category_id";
             $params['category_id'] = $data['category_id'];
         }
-        if (isset($data['stock_quantity'])) {
+        if (array_key_exists('stock_quantity', $data)) {
             $updates[] = "stock_quantity = :stock_quantity";
             $params['stock_quantity'] = $data['stock_quantity'];
         }
-        if (isset($data['is_featured'])) {
+        if (array_key_exists('is_featured', $data)) {
             $updates[] = "is_featured = :is_featured";
             $params['is_featured'] = $data['is_featured'];
         }
-        if (isset($data['image_url'])) {
+        if (array_key_exists('image_url', $data)) {
             $updates[] = "image_url = :image_url";
             $params['image_url'] = $data['image_url'];
         }

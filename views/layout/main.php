@@ -100,6 +100,12 @@
             <?= $structured_data ?>
             </script>
     <?php endif; ?>
+
+    <!-- Theme Initialization to prevent flash -->
+    <script>
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    </script>
 </head>
 
 <body>
@@ -123,6 +129,13 @@
                         <a href="<?= SITE_URL ?>/home/setLang/en"
                             class="nav-link p-0 <?= (isset($_SESSION['lang']) && $_SESSION['lang'] === 'en') ? 'active text-gold' : '' ?>">EN</a>
                     </div>
+
+                    <span class="text-dim mx-2">|</span>
+                    
+                    <!-- Theme Toggle -->
+                    <button id="theme-toggle" class="btn btn-sm" style="background:transparent; color:var(--gold); border:none; padding:0;">
+                        <i class="fas fa-moon"></i>
+                    </button>
 
                     <span class="text-dim mx-2">|</span>
 

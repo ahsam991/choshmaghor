@@ -23,7 +23,7 @@ if (!isset($meta_description)) {
     <div class="container">
         <div class="row align-items-center mb-5">
             <div class="col-lg-6 mb-4 mb-lg-0">
-                <img src="<?= asset('images/about-hero.jpg') ?>" alt="ChoshmaZone Team" class="img-fluid rounded shadow" onerror="this.src='https://images.unsplash.com/photo-1556760544-74068565f05c?w=800&h=600&fit=crop'">
+                <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&q=80&w=800&h=600" alt="ChoshmaZone Team" class="img-fluid rounded shadow-lg" style="object-fit:cover; width:100%; height:auto;">
             </div>
             <div class="col-lg-6">
                 <h2 class="section-title mb-4"><?= isset($_SESSION['lang']) && $_SESSION['lang'] === 'en' ? 'Our Story' : 'আমাদের গল্প' ?></h2>

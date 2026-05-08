@@ -50,7 +50,7 @@ $og_type = 'website';
             <div class="col-lg-5 d-none d-lg-block">
                 <div class="hero-visual">
                     <div class="hero-img-wrap">
-                        <img src="<?= asset('images/hero-glasses.png') ?>" alt="Premium Sunglasses Online Bangladesh - ChoshmaZone" class="hero-img" onerror="this.src='<?= asset('images/placeholder.png') ?>'">
+                        <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&q=80&w=800&h=800" alt="Premium Sunglasses Online Bangladesh - ChoshmaZone" class="hero-img" onerror="this.src='<?= asset('images/placeholder.png') ?>'">
                     </div>
                     <div class="hero-floating-badge badge-1">
                         <div class="hfb-icon text-gold">🕶️</div>

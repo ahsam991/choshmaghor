@@ -547,3 +547,18 @@ For issues, questions, or feature requests:
 This project is proprietary software. All rights reserved.
 
 © 2024-2026 ChoshmaZone. All Rights Reserved.
+
+---
+## 📝 Changelog
+
+### v2.1.0 (Current)
+- ✅ Fixed product edit functionality (routing & null value saving).
+- ✅ Added complete Dark/Light mode theme switching with local storage persistence.
+- ✅ Implemented dynamic Multi-language System (English/Bengali) across all views.
+- ✅ Modernized homepage hero section with realistic high-quality Unsplash assets.
+- ✅ Updated About section with high-quality imagery.
+
+### v2.0.0
+- ✅ Overhauled admin dashboard UI/UX with responsive mobile design.
+- ✅ Fixed account page navigation and styling.
+- ✅ Synchronized Git repository and cleaned up tracking rules.
