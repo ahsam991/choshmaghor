@@ -329,6 +329,52 @@
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="<?= asset('js/app.js') ?>"></script>
+
+    <?php
+    $settingsFile = APP_PATH . '/config/settings.json';
+    $popupSettings = [];
+    if (file_exists($settingsFile)) {
+        $popupSettings = json_decode(file_get_contents($settingsFile), true) ?: [];
+    }
+    
+    if (isset($popupSettings['popup_enabled']) && $popupSettings['popup_enabled'] === '1' && !isset($_SESSION['popup_shown'])):
+        $_SESSION['popup_shown'] = true;
+    ?>
+    <!-- Promotional Popup -->
+    <div class="modal fade" id="promoPopupModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background: var(--dark-2); border: 1px solid var(--border); border-radius: 12px; overflow: hidden;">
+                <?php if (!empty($popupSettings['popup_image'])): ?>
+                <img src="<?= e($popupSettings['popup_image']) ?>" alt="Promotion" style="width: 100%; height: auto; max-height: 250px; object-fit: cover;">
+                <?php endif; ?>
+                <div class="modal-header" style="border-bottom: 1px solid var(--border);">
+                    <h5 class="modal-title" style="color: var(--gold); font-weight: 700;">
+                        <i class="fas fa-gift me-2"></i><?= e($popupSettings['popup_title'] ?: 'Special Offer!') ?>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="padding: 20px;">
+                    <p style="font-size: 16px; color: var(--text); line-height: 1.6;">
+                        <?= nl2br(e($popupSettings['popup_content'])) ?>
+                    </p>
+                </div>
+                <div class="modal-footer" style="border-top: 1px solid var(--border); justify-content: center;">
+                    <a href="<?= !empty($popupSettings['popup_link']) ? e($popupSettings['popup_link']) : SITE_URL . '/shop' ?>" class="btn btn-gold w-100" style="padding: 12px; font-weight: 600; font-size: 16px;">
+                        <?= __('shop_now') ?> <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var promoModal = new bootstrap.Modal(document.getElementById('promoPopupModal'));
+            setTimeout(function() {
+                promoModal.show();
+            }, 2000); // Show after 2 seconds
+        });
+    </script>
+    <?php endif; ?>
 </body>
 
 </html>

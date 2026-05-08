@@ -93,13 +93,59 @@
     </div>
 </div>
 
-<!-- Top Products Chart -->
-<div class="admin-card" style="margin-top: 20px;">
-    <div class="admin-card-header">
-        <div class="admin-card-title"><i class="fas fa-star"></i> শীর্ষ বিক্রীত পণ্য (Top Selling Products)</div>
+<!-- Top Products Chart & Server Health -->
+<div class="admin-charts-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-top: 20px;">
+    <!-- Top Products Chart -->
+    <div class="admin-card">
+        <div class="admin-card-header">
+            <div class="admin-card-title"><i class="fas fa-star"></i> শীর্ষ বিক্রীত পণ্য (Top Selling Products)</div>
+        </div>
+        <div class="admin-card-body" style="padding: 20px;">
+            <canvas id="topProductsChart" height="150"></canvas>
+        </div>
     </div>
-    <div class="admin-card-body" style="padding: 20px;">
-        <canvas id="topProductsChart" height="80"></canvas>
+
+    <!-- Server Health -->
+    <div class="admin-card">
+        <div class="admin-card-header">
+            <div class="admin-card-title"><i class="fas fa-server"></i> সিস্টেম হেলথ (System Health)</div>
+        </div>
+        <div class="admin-card-body" style="padding: 20px;">
+            <div class="health-item mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span style="color: var(--text-muted);"><i class="fas fa-microchip me-2"></i> PHP Memory</span>
+                    <span style="font-weight: 600;"><?= e($serverHealth['memory_usage']) ?></span>
+                </div>
+                <div style="background: var(--dark-3); height: 6px; border-radius: 3px; overflow: hidden;">
+                    <div style="background: var(--green); height: 100%; width: 45%;"></div>
+                </div>
+            </div>
+            
+            <div class="health-item mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span style="color: var(--text-muted);"><i class="fas fa-database me-2"></i> DB Status</span>
+                    <?php if ($serverHealth['db_health']['status'] === 'Healthy'): ?>
+                        <span class="badge" style="background: rgba(76,175,80,0.2); color: var(--green); padding: 4px 8px; border-radius: 4px;">Healthy</span>
+                    <?php else: ?>
+                        <span class="badge" style="background: rgba(244,67,54,0.2); color: var(--red); padding: 4px 8px; border-radius: 4px;">Error</span>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <div class="health-item mb-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span style="color: var(--text-muted);"><i class="fas fa-clock me-2"></i> DB Uptime</span>
+                    <span style="font-weight: 600; font-family: monospace;"><?= e($serverHealth['db_health']['uptime']) ?></span>
+                </div>
+            </div>
+
+            <div class="health-item">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span style="color: var(--text-muted);"><i class="fas fa-network-wired me-2"></i> DB Threads</span>
+                    <span style="font-weight: 600;"><?= e($serverHealth['db_health']['threads_connected']) ?> Active</span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

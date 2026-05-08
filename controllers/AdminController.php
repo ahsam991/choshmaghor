@@ -76,6 +76,33 @@ class AdminController extends Controller {
             $stmtTopProducts->execute();
             $topSellingData = $stmtTopProducts->fetchAll(PDO::FETCH_ASSOC);
 
+            // Fetch System Health Data
+            $dbStatus = [];
+            try {
+                $uptimeStmt = $this->db->query("SHOW GLOBAL STATUS LIKE 'Uptime'");
+                $uptimeRow = $uptimeStmt->fetch(PDO::FETCH_ASSOC);
+                $dbStatus['uptime'] = isset($uptimeRow['Value']) ? gmdate("H:i:s", (int)$uptimeRow['Value']) : 'N/A';
+
+                $threadsStmt = $this->db->query("SHOW STATUS LIKE 'Threads_connected'");
+                $threadsRow = $threadsStmt->fetch(PDO::FETCH_ASSOC);
+                $dbStatus['threads_connected'] = $threadsRow['Value'] ?? '0';
+
+                $versionStmt = $this->db->query("SELECT VERSION() as version");
+                $versionRow = $versionStmt->fetch(PDO::FETCH_ASSOC);
+                $dbStatus['version'] = $versionRow['version'] ?? 'Unknown';
+
+                $dbStatus['status'] = 'Healthy';
+            } catch (Exception $e) {
+                $dbStatus['status'] = 'Error';
+                $dbStatus['error'] = $e->getMessage();
+            }
+
+            $serverHealth = [
+                'php_version' => phpversion(),
+                'memory_usage' => round(memory_get_usage() / 1048576, 2) . ' MB',
+                'db_health' => $dbStatus
+            ];
+
             $this->render('admin/index', [
                 'page'              => 'dashboard',
                 'productCount'      => $productCount,
@@ -86,6 +113,7 @@ class AdminController extends Controller {
                 'weeklyRevenueData' => json_encode($weeklyRevenueData),
                 'orderStatusData'   => json_encode($orderStatusData),
                 'topSellingData'    => json_encode($topSellingData),
+                'serverHealth'      => $serverHealth,
             ]);
         } catch (Exception $e) {
             $this->render('admin/index', [
@@ -278,14 +306,29 @@ class AdminController extends Controller {
     // ─── Settings ──────────────────────────────────────────────────
     public function settings() {
         $settingsFile = APP_PATH . '/config/settings.json';
-        $settings = ['promo_end_time' => ''];
+        $settings = [
+            'promo_end_time' => '',
+            'popup_enabled' => '0',
+            'popup_title' => '',
+            'popup_content' => '',
+            'popup_image' => '',
+            'popup_link' => ''
+        ];
+        
         if (file_exists($settingsFile)) {
-            $settings = json_decode(file_get_contents($settingsFile), true) ?: $settings;
+            $savedSettings = json_decode(file_get_contents($settingsFile), true) ?: [];
+            $settings = array_merge($settings, $savedSettings);
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $settings['promo_end_time'] = trim($_POST['promo_end_time'] ?? '');
-            file_put_contents($settingsFile, json_encode($settings));
+            $settings['popup_enabled'] = isset($_POST['popup_enabled']) ? '1' : '0';
+            $settings['popup_title'] = trim($_POST['popup_title'] ?? '');
+            $settings['popup_content'] = trim($_POST['popup_content'] ?? '');
+            $settings['popup_image'] = trim($_POST['popup_image'] ?? '');
+            $settings['popup_link'] = trim($_POST['popup_link'] ?? '');
+            
+            file_put_contents($settingsFile, json_encode($settings, JSON_PRETTY_PRINT));
             $success = "Settings updated successfully.";
             $this->render('admin/settings', ['page' => 'settings', 'settings' => $settings, 'success' => $success]);
             return;

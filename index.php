@@ -1,8 +1,17 @@
 <?php
+// Set session cookie parameters before starting session (30 days persistence)
+session_set_cookie_params([
+    'lifetime' => 2592000,
+    'path' => '/',
+    'secure' => isset($_SERVER['HTTPS']),
+    'httponly' => true
+]);
 session_start();
 
 // Load Configuration and Core files
 require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/core/MCP.php';
+MCP::start();
 require_once __DIR__ . '/core/Database.php';
 require_once __DIR__ . '/core/Controller.php';
 require_once __DIR__ . '/core/Security.php';
@@ -292,6 +301,9 @@ switch ($controller_name) {
             case 'order':
                 $controller->order();
                 break;
+            case 'wishlist':
+                $controller->wishlist();
+                break;
             case 'orders':
                 $controller->index(); // orders tab shown from dashboard
                 break;
@@ -400,7 +412,8 @@ switch ($controller_name) {
                 break;
             default:
                 http_response_code(404);
-                echo "404 Not Found";
+                $controller = new Controller();
+                $controller->render('errors/404');
         }
         break;
 
@@ -426,7 +439,11 @@ switch ($controller_name) {
             return false;
         }
         http_response_code(404);
-        echo "404 Not Found";
+        $controller = new Controller();
+        $controller->render('errors/404');
         break;
 }
+
+// Log MCP Performance
+MCP::saveLog();
 

@@ -8,6 +8,25 @@ class CartController extends Controller {
         $this->productModel = new Product();
     }
 
+    private function calculateCartTotals() {
+        $subtotal = 0;
+        if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+            foreach ($_SESSION['cart'] as $id => $qty) {
+                $product = $this->productModel->getById($id);
+                if ($product) {
+                    $price = ($product['discount_price'] > 0) ? $product['discount_price'] : $product['price'];
+                    $subtotal += $price * $qty;
+                }
+            }
+        }
+        return [
+            'subtotal' => $subtotal,
+            'total' => $subtotal + 60, // Assuming 60 is shipping
+            'formatted_subtotal' => CURRENCY . number_format($subtotal, 2),
+            'formatted_total' => CURRENCY . number_format($subtotal + 60, 2)
+        ];
+    }
+
     // Display cart page
     public function index() {
         $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
@@ -74,10 +93,13 @@ class CartController extends Controller {
             $_SESSION['cart'][$product_id] = $quantity;
         }
 
+        $totals = $this->calculateCartTotals();
+
         echo json_encode([
             'success' => true,
             'message' => 'Product added to cart',
-            'cart_count' => count($_SESSION['cart'])
+            'cart_count' => count($_SESSION['cart']),
+            'totals' => $totals
         ]);
         exit;
     }
@@ -101,10 +123,12 @@ class CartController extends Controller {
 
         if (isset($_SESSION['cart'][$product_id])) {
             unset($_SESSION['cart'][$product_id]);
+            $totals = $this->calculateCartTotals();
             echo json_encode([
                 'success' => true,
                 'message' => 'Product removed from cart',
-                'cart_count' => count($_SESSION['cart'])
+                'cart_count' => count($_SESSION['cart']),
+                'totals' => $totals
             ]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Product not in cart']);
@@ -151,10 +175,20 @@ class CartController extends Controller {
             $_SESSION['cart'][$product_id] = $quantity;
         }
 
+        $item_subtotal_formatted = '';
+        if ($quantity > 0 && isset($product)) {
+            $price = ($product['discount_price'] > 0) ? $product['discount_price'] : $product['price'];
+            $item_subtotal_formatted = CURRENCY . number_format($price * $quantity, 2);
+        }
+
+        $totals = $this->calculateCartTotals();
+
         echo json_encode([
             'success' => true,
             'message' => 'Cart updated',
-            'cart_count' => count($_SESSION['cart'])
+            'cart_count' => count($_SESSION['cart']),
+            'item_subtotal_formatted' => $item_subtotal_formatted,
+            'totals' => $totals
         ]);
         exit;
     }

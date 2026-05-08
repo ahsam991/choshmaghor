@@ -135,4 +135,30 @@ class AccountController extends Controller {
         }
         exit;
     }
+
+    // Wishlist view
+    public function wishlist() {
+        $wishlist_ids = [];
+        if (isset($_COOKIE['choshmazone_wishlist'])) {
+            $wishlist_ids = json_decode($_COOKIE['choshmazone_wishlist'], true);
+        }
+        
+        $products = [];
+        if (!empty($wishlist_ids) && is_array($wishlist_ids)) {
+            require_once APP_PATH . '/models/Product.php';
+            $productModel = new Product();
+            
+            // Fetch products by id
+            foreach ($wishlist_ids as $id) {
+                $product = $productModel->getById($id);
+                if ($product) {
+                    $products[] = $product;
+                }
+            }
+        }
+        
+        $this->render('account/wishlist', [
+            'products' => $products
+        ]);
+    }
 }

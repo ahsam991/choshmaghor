@@ -22,6 +22,35 @@
             </div>
         </div>
 
+        <div class="mb-5">
+            <h5 class="text-gold border-bottom border-secondary pb-2 mb-3">Promotion Popup Settings</h5>
+            
+            <div class="mb-3 form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="popup_enabled" name="popup_enabled" value="1" <?= ($settings['popup_enabled'] ?? '0') === '1' ? 'checked' : '' ?>>
+                <label class="form-check-label" for="popup_enabled">Enable Promotion Popup</label>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Popup Title</label>
+                    <input type="text" class="form-control" name="popup_title" value="<?= e($settings['popup_title'] ?? '') ?>" placeholder="e.g. Eid Mega Sale!">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Popup Image URL</label>
+                    <input type="text" class="form-control" name="popup_image" value="<?= e($settings['popup_image'] ?? '') ?>" placeholder="URL to promotional image">
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Popup Content / Description</label>
+                    <textarea class="form-control" name="popup_content" rows="3" placeholder="Description of the offer..."><?= e($settings['popup_content'] ?? '') ?></textarea>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Button Link</label>
+                    <input type="text" class="form-control" name="popup_link" value="<?= e($settings['popup_link'] ?? '') ?>" placeholder="e.g. /shop?category=1">
+                    <small class="text-muted">Where the user goes when they click "Shop Now" in the popup.</small>
+                </div>
+            </div>
+        </div>
+
         <div class="mt-4">
             <button type="submit" class="btn btn-gold px-4 py-2">
                 <i class="fas fa-save me-2"></i>Save Settings
