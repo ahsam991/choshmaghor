@@ -1,25 +1,25 @@
 <div class="admin-page-header">
     <div>
-        <h1 class="admin-page-title"><i class="fas fa-shopping-cart"></i> অর্ডার পরিচালনা</h1>
-        <p class="admin-page-sub">সব অর্ডার দেখুন ও স্ট্যাটাস আপডেট করুন</p>
+        <h1 class="admin-page-title"><i class="fas fa-shopping-cart"></i> Manage Orders</h1>
+        <p class="admin-page-sub">View and update order statuses</p>
     </div>
 </div>
 
 <div class="admin-card">
     <div class="admin-card-header">
-        <div class="admin-card-title"><i class="fas fa-list"></i> সব অর্ডার (<?= count($orders ?? []) ?>)</div>
+        <div class="admin-card-title"><i class="fas fa-list"></i> All Orders (<?= count($orders ?? []) ?>)</div>
     </div>
     <div style="overflow-x:auto;">
         <table class="admin-table">
             <thead>
                 <tr>
-                    <th>অর্ডার</th>
-                    <th>গ্রাহক</th>
-                    <th>ইমেইল</th>
-                    <th>মোট</th>
-                    <th>স্ট্যাটাস</th>
-                    <th>তারিখ</th>
-                    <th>অ্যাকশন</th>
+                    <th>Order</th>
+                    <th>Customer</th>
+                    <th>Email</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,7 +27,7 @@
                     <?php foreach ($orders as $order): ?>
                     <tr>
                         <td style="color:var(--gold);font-weight:700;">#<?= e($order['id']) ?></td>
-                        <td style="font-weight:600;"><?= e($order['name'] ?? 'অতিথি') ?></td>
+                        <td style="font-weight:600;"><?= e($order['name'] ?? 'Guest') ?></td>
                         <td style="color:var(--text-muted);"><?= e($order['email'] ?? 'N/A') ?></td>
                         <td style="color:var(--gold);font-weight:700;">৳<?= number_format($order['total_amount'], 0) ?></td>
                         <td>
@@ -39,7 +39,7 @@
                         </td>
                         <td style="color:var(--text-muted);font-size:0.85rem;"><?= date('d M Y, h:i A', strtotime($order['created_at'])) ?></td>
                         <td>
-                            <a href="<?= SITE_URL ?>/admin/order/<?= $order['id'] ?>" class="btn action-btn-sm btn-edit" title="বিস্তারিত দেখুন">
+                            <a href="<?= SITE_URL ?>/admin/order/<?= $order['id'] ?>" class="btn action-btn-sm btn-edit" title="View Details">
                                 <i class="fas fa-eye"></i>
                             </a>
                         </td>
@@ -47,7 +47,7 @@
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr><td colspan="7">
-                        <div class="admin-empty"><i class="fas fa-inbox"></i><p>কোনো অর্ডার নেই।</p></div>
+                        <div class="admin-empty"><i class="fas fa-inbox"></i><p>No orders found.</p></div>
                     </td></tr>
                 <?php endif; ?>
             </tbody>

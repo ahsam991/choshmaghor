@@ -11,7 +11,7 @@
         </button>
 
         <a href="<?= SITE_URL ?>/shop/product/<?= $product['id'] ?>" title="Buy <?= e($product['name']) ?> Online Bangladesh">
-            <img src="<?= asset('images/products/' . ($product['image_url'] ?? 'placeholder.png')) ?>?v=<?= time() ?>" alt="<?= e($product['name']) ?> - Premium Sunglasses | ChoshmaZone" loading="lazy" onerror="this.src='<?= asset('images/placeholder.png') ?>'">
+            <img src="<?= asset('images/products/' . ($product['image_url'] ?? 'placeholder.png')) ?>?v=<?= time() ?>" alt="<?= e($product['name']) ?> - Premium Sunglasses | ChoshmaZone" loading="lazy" onerror="this.onerror=null;this.src='<?= asset('images/placeholder.png') ?>';">
         </a>
 
         <div class="product-overlay">

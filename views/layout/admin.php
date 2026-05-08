@@ -15,6 +15,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="<?= asset('css/style.css') ?>" rel="stylesheet">
     <link href="<?= asset('css/admin.css') ?>" rel="stylesheet">
+    <script>
+        // Initialize theme
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    </script>
 </head>
 <body class="admin-body">
 
@@ -22,37 +27,41 @@
     <!-- Sidebar -->
     <aside class="admin-sidebar" id="adminSidebar">
         <div class="sidebar-brand">
-            <i class="fas fa-glasses"></i>
-            <span>চশমাZone</span>
+            <?php if (!empty($settings['site_logo'])): ?>
+                <img src="<?= e($settings['site_logo']) ?>" alt="Logo" class="admin-logo-img">
+            <?php else: ?>
+                <i class="fas fa-glasses"></i>
+                <span><?= e($settings['site_title'] ?? 'ChoshmaZone') ?></span>
+            <?php endif; ?>
         </div>
         <nav class="sidebar-nav">
-            <div class="nav-section">ড্যাশবোর্ড</div>
+            <div class="nav-section">Dashboard</div>
             <a href="<?= SITE_URL ?>/admin" class="nav-item <?= ($page ?? '') === 'dashboard' ? 'active' : '' ?>">
-                <i class="fas fa-tachometer-alt"></i> ড্যাশবোর্ড
+                <i class="fas fa-tachometer-alt"></i> Dashboard
             </a>
-            <div class="nav-section">পণ্য</div>
+            <div class="nav-section">Products</div>
             <a href="<?= SITE_URL ?>/admin/products" class="nav-item <?= ($page ?? '') === 'products' ? 'active' : '' ?>">
-                <i class="fas fa-glasses"></i> সব পণ্য
+                <i class="fas fa-glasses"></i> All Products
             </a>
             <a href="<?= SITE_URL ?>/admin/addProduct" class="nav-item <?= ($page ?? '') === 'add-product' ? 'active' : '' ?>">
-                <i class="fas fa-plus-circle"></i> নতুন পণ্য
+                <i class="fas fa-plus-circle"></i> Add New Product
             </a>
-            <div class="nav-section">বিক্রয়</div>
+            <div class="nav-section">Sales</div>
             <a href="<?= SITE_URL ?>/admin/orders" class="nav-item <?= ($page ?? '') === 'orders' ? 'active' : '' ?>">
-                <i class="fas fa-shopping-cart"></i> অর্ডার
+                <i class="fas fa-shopping-cart"></i> Orders
             </a>
             <a href="<?= SITE_URL ?>/admin/users" class="nav-item <?= ($page ?? '') === 'users' ? 'active' : '' ?>">
-                <i class="fas fa-users"></i> ব্যবহারকারী
+                <i class="fas fa-users"></i> Customers
             </a>
-            <div class="nav-section">সেটিংস</div>
+            <div class="nav-section">Settings</div>
             <a href="<?= SITE_URL ?>/admin/settings" class="nav-item <?= ($page ?? '') === 'settings' ? 'active' : '' ?>">
-                <i class="fas fa-cog"></i> সাইট সেটিংস
+                <i class="fas fa-cog"></i> General Settings
             </a>
             <a href="<?= SITE_URL ?>" class="nav-item" target="_blank">
-                <i class="fas fa-external-link-alt"></i> সাইট দেখুন
+                <i class="fas fa-external-link-alt"></i> View Storefront
             </a>
             <a href="<?= SITE_URL ?>/auth/logout" class="nav-item text-danger">
-                <i class="fas fa-sign-out-alt"></i> লগআউট
+                <i class="fas fa-sign-out-alt"></i> Logout
             </a>
         </nav>
     </aside>

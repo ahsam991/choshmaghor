@@ -1,34 +1,34 @@
 <!-- Products Header -->
 <div class="admin-page-header">
     <div>
-        <h1 class="admin-page-title"><i class="fas fa-glasses"></i> পণ্য পরিচালনা</h1>
-        <p class="admin-page-sub">সব পণ্য দেখুন, সম্পাদনা করুন বা মুছুন</p>
+        <h1 class="admin-page-title"><i class="fas fa-glasses"></i> Manage Products</h1>
+        <p class="admin-page-sub">View, edit, or delete all products</p>
     </div>
     <a href="<?= SITE_URL ?>/admin/addProduct" class="btn btn-gold">
-        <i class="fas fa-plus"></i> নতুন পণ্য যোগ করুন
+        <i class="fas fa-plus"></i> Add New Product
     </a>
 </div>
 
 <?php if (isset($_GET['success'])): ?>
-<div class="alert alert-success mb-4"><i class="fas fa-check-circle me-2"></i> সফলভাবে সম্পন্ন হয়েছে!</div>
+<div class="alert alert-success mb-4"><i class="fas fa-check-circle me-2"></i> Operation completed successfully!</div>
 <?php endif; ?>
 
 <div class="admin-card">
     <div class="admin-card-header">
-        <div class="admin-card-title"><i class="fas fa-list"></i> সব পণ্য (<?= count($products ?? []) ?>)</div>
+        <div class="admin-card-title"><i class="fas fa-list"></i> All Products (<?= count($products ?? []) ?>)</div>
     </div>
     <div style="overflow-x: auto;">
         <table class="admin-table">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>ছবি</th>
-                    <th>পণ্যের নাম</th>
-                    <th>ক্যাটাগরি</th>
-                    <th>মূল্য</th>
-                    <th>স্টক</th>
-                    <th>স্ট্যাটাস</th>
-                    <th>অ্যাকশন</th>
+                    <th>Image</th>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Status</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -67,13 +67,13 @@
                         </td>
                         <td>
                             <div style="display:flex;gap:6px;">
-                                <a href="<?= SITE_URL ?>/admin/editProduct/<?= $product['id'] ?>" class="btn action-btn-sm btn-edit" title="সম্পাদনা">
+                                <a href="<?= SITE_URL ?>/admin/editProduct/<?= $product['id'] ?>" class="btn action-btn-sm btn-edit" title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <button class="btn action-btn-sm btn-delete btn-delete-product"
                                     data-id="<?= $product['id'] ?>"
                                     data-name="<?= e($product['name']) ?>"
-                                    title="মুছুন">
+                                    title="Delete">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -85,8 +85,8 @@
                         <td colspan="8">
                             <div class="admin-empty">
                                 <i class="fas fa-box-open"></i>
-                                <p>কোনো পণ্য পাওয়া যায়নি।</p>
-                                <a href="<?= SITE_URL ?>/admin/addProduct" class="btn btn-gold" style="margin-top:12px;">নতুন পণ্য যোগ করুন</a>
+                                <p>No products found.</p>
+                                <a href="<?= SITE_URL ?>/admin/addProduct" class="btn btn-gold" style="margin-top:12px;">Add New Product</a>
                             </div>
                         </td>
                     </tr>

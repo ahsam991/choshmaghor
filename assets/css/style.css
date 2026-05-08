@@ -1138,3 +1138,57 @@ ul { list-style:none; }
   .header-actions { gap: 6px; }
   .badge-count { top: -3px; right: -3px; width: 16px; height: 16px; font-size: 0.6rem; }
 }
+
+/* ==================== SEARCH OVERLAY ==================== */
+.search-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(6,6,8,0.98); z-index: 2000;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: var(--trans);
+}
+.search-overlay.active { opacity: 1; visibility: visible; }
+.search-close {
+  position: absolute; top: 30px; right: 30px;
+  background: none; border: none; color: var(--white);
+  font-size: 2rem; cursor: pointer; transition: var(--trans);
+}
+.search-close:hover { color: var(--gold); transform: rotate(90deg); }
+.search-container { width: 100%; max-width: 800px; padding: 0 20px; }
+.search-form { position: relative; display: flex; align-items: center; }
+.search-form input {
+  width: 100%; background: transparent; border: none;
+  border-bottom: 2px solid var(--border); padding: 15px 50px 15px 0;
+  color: var(--white); font-size: 1.8rem; font-family: 'Inter', sans-serif;
+  transition: var(--trans);
+}
+.search-form input:focus { outline: none; border-color: var(--gold); }
+.search-form button {
+  position: absolute; right: 0; background: none; border: none;
+  color: var(--gold); font-size: 1.5rem; cursor: pointer;
+}
+.search-results {
+  margin-top: 30px; max-height: 50vh; overflow-y: auto;
+  padding-right: 10px;
+}
+.search-result-item {
+  display: flex; align-items: center; gap: 15px; padding: 10px;
+  border-radius: 8px; transition: var(--trans); border-bottom: 1px solid var(--border-dim);
+}
+.search-result-item:hover { background: var(--dark-2); }
+.search-result-img { width: 60px; height: 60px; border-radius: 6px; object-fit: cover; }
+.search-result-info h4 { font-size: 1rem; margin-bottom: 5px; color: var(--white); }
+.search-result-info p { font-size: 0.9rem; color: var(--gold); }
+
+/* Improved Dark Theme Visibility */
+body.dark-mode {
+  --text: #f0f0f8;
+  --text-muted: #a0a0c0;
+}
+.dark-card {
+  background: var(--dark-2);
+  border: 1px solid var(--border-dim);
+  box-shadow: var(--shadow);
+}
+.dark-card:hover {
+  border-color: var(--gold);
+}

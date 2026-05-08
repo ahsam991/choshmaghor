@@ -12,6 +12,13 @@ class Controller {
             function asset($path) { return SITE_URL . '/assets/' . $path; }
         }
 
+        // Load global settings
+        $settingsPath = APP_PATH . '/config/settings.json';
+        $settings = [];
+        if (file_exists($settingsPath)) {
+            $settings = json_decode(file_get_contents($settingsPath), true) ?? [];
+        }
+
         ob_start();
         $viewPath = APP_PATH . '/views/' . $view . '.php';
         if (file_exists($viewPath)) {

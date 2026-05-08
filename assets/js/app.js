@@ -290,6 +290,57 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initWishlist();
 
+    // ===== SEARCH SYSTEM =====
+    const searchToggle = document.getElementById('search-toggle');
+    const searchOverlay = document.getElementById('search-overlay');
+    const searchClose = document.getElementById('search-close');
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+
+    function openSearch() {
+        searchOverlay?.classList.add('active');
+        setTimeout(() => searchInput?.focus(), 300);
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeSearch() {
+        searchOverlay?.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    searchToggle?.addEventListener('click', (e) => {
+        e.preventDefault();
+        openSearch();
+    });
+    searchClose?.addEventListener('click', closeSearch);
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && searchOverlay?.classList.contains('active')) {
+            closeSearch();
+        }
+    });
+
+    // AJAX Search
+    let searchTimeout;
+    searchInput?.addEventListener('input', (e) => {
+        const query = e.target.value.trim();
+        clearTimeout(searchTimeout);
+
+        if (query.length < 2) {
+            searchResults.innerHTML = '';
+            return;
+        }
+
+        searchTimeout = setTimeout(() => {
+            fetch(`${SITE_URL}/shop?q=${encodeURIComponent(query)}&ajax=1`)
+                .then(res => res.text())
+                .then(html => {
+                    searchResults.innerHTML = html;
+                });
+        }, 300);
+    });
+
 });
 
 // Extra animations

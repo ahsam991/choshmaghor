@@ -128,4 +128,17 @@ class Product {
         $stmt = $this->db->prepare("UPDATE products SET stock_quantity = :quantity WHERE id = :id");
         return $stmt->execute(['quantity' => $quantity, 'id' => $id]);
     }
+
+    public function search($query, $limit = 5) {
+        $stmt = $this->db->prepare("
+            SELECT id, name, price, discount_price, image_url 
+            FROM products 
+            WHERE name LIKE :query OR description LIKE :query 
+            LIMIT :limit
+        ");
+        $stmt->bindValue(':query', '%' . $query . '%', PDO::PARAM_STR);
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

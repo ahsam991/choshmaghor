@@ -181,8 +181,8 @@ $global_settings = file_exists($settingsFile) ? json_decode(file_get_contents($s
             <div class="header-inner">
                 <!-- Logo -->
                 <a href="<?= SITE_URL ?>" class="logo">
-                    <img src="<?= e($global_settings['site_logo'] ?? asset('images/logo.png')) ?>" alt="Logo">
-                    <div class="logo-text"><?= e(strtoupper($global_settings['site_title'] ?? 'CHOSHMAZONE')) ?></div>
+                    <img src="<?= e($settings['site_logo'] ?? asset('images/logo.png')) ?>" alt="Logo">
+                    <div class="logo-text"><?= e(strtoupper($settings['site_title'] ?? 'CHOSHMAZONE')) ?></div>
                 </a>
 
                 <!-- Nav -->
@@ -247,6 +247,20 @@ $global_settings = file_exists($settingsFile) ? json_decode(file_get_contents($s
         <?php endif; ?>
     </div>
     <div class="overlay" id="overlay"></div>
+    
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="search-overlay">
+        <button class="search-close" id="search-close"><i class="fas fa-times"></i></button>
+        <div class="search-container">
+            <form action="<?= SITE_URL ?>/shop" method="GET" class="search-form">
+                <input type="text" name="q" placeholder="Search for products..." id="search-input" autocomplete="off">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+            <div class="search-results" id="search-results">
+                <!-- Results will appear here via AJAX -->
+            </div>
+        </div>
+    </div>
 
     <!-- Flash Messages -->
     <div class="container mt-3">

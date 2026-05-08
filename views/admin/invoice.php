@@ -3,143 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice #<?= e($order['id']) ?> - ChoshmaZone</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Invoice #<?= e($order['id']) ?> - <?= e($settings['site_title'] ?? 'ChoshmaZone') ?></title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: <?= e($settings['theme_color'] ?? '#c9a84c') ?>;
+            --dark: #1a1a1a;
+            --gray: #6b7280;
+            --light-gray: #f3f4f6;
+        }
         body {
-            font-family: 'Inter', sans-serif;
-            color: #333;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--dark);
             margin: 0;
             padding: 40px;
-            background: #fff;
-            line-height: 1.6;
+            background: #f9fafb;
+            line-height: 1.5;
         }
         .invoice-box {
-            max-width: 800px;
+            max-width: 850px;
             margin: auto;
-            padding: 30px;
-            border: 1px solid #eee;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-            font-size: 16px;
+            padding: 50px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
         }
         .header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            border-bottom: 2px solid #333;
-            padding-bottom: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
-        .header .logo h1 {
+        .logo h1 {
             margin: 0;
-            font-size: 28px;
-            color: #111;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -1px;
         }
-        .header .logo span {
-            color: #888;
+        .logo p {
+            margin: 5px 0 0;
+            color: var(--gray);
             font-size: 14px;
         }
-        .header .invoice-details {
+        .invoice-details {
             text-align: right;
         }
-        .header .invoice-details h2 {
-            margin: 0 0 5px 0;
-            color: #111;
-        }
-        .customer-info {
-            margin-bottom: 30px;
-        }
-        .customer-info h3 {
-            margin-top: 0;
-            color: #555;
-            font-size: 16px;
+        .invoice-details h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
             text-transform: uppercase;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 5px;
+            color: var(--dark);
+        }
+        .invoice-details p {
+            margin: 4px 0;
+            color: var(--gray);
+            font-size: 14px;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+            padding: 24px;
+            background: var(--light-gray);
+            border-radius: 12px;
+        }
+        .info-block h3 {
+            margin: 0 0 12px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray);
+        }
+        .info-block p {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 500;
         }
         table {
             width: 100%;
-            line-height: inherit;
-            text-align: left;
             border-collapse: collapse;
+            margin-bottom: 30px;
         }
         table th {
-            background: #f8f8f8;
-            border-bottom: 2px solid #ddd;
-            padding: 10px;
-            font-weight: 600;
-            color: #333;
+            text-align: left;
+            padding: 16px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--gray);
+            border-bottom: 2px solid var(--light-gray);
         }
         table td {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
+            padding: 16px;
+            font-size: 15px;
+            border-bottom: 1px solid var(--light-gray);
         }
         .text-right { text-align: right; }
         .text-center { text-align: center; }
+        .total-section {
+            margin-left: auto;
+            width: 300px;
+        }
         .total-row {
-            font-weight: bold;
-            font-size: 18px;
-            background: #f8f8f8;
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+        }
+        .total-row.grand-total {
+            border-top: 2px solid var(--dark);
+            margin-top: 10px;
+            font-weight: 800;
+            font-size: 20px;
+            color: var(--primary);
         }
         .footer {
-            margin-top: 50px;
+            margin-top: 60px;
             text-align: center;
-            color: #777;
+            padding-top: 30px;
+            border-top: 1px solid var(--light-gray);
+        }
+        .footer p {
+            margin: 4px 0;
             font-size: 14px;
-            border-top: 1px solid #eee;
-            padding-top: 20px;
+            color: var(--gray);
         }
-        .print-btn {
-            display: block;
-            width: 200px;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background: #c9a84c;
-            color: #fff;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 5px;
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-size: 12px;
             font-weight: 600;
-            cursor: pointer;
-            border: none;
+            text-transform: uppercase;
         }
+        .badge-pending { background: #fef3c7; color: #92400e; }
+        .badge-completed { background: #dcfce7; color: #166534; }
+        .print-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 14px 28px;
+            background: var(--dark);
+            color: #fff;
+            border: none;
+            border-radius: 99px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .print-btn:hover { transform: translateY(-2px); }
         @media print {
             .print-btn { display: none; }
-            body { padding: 0; }
-            .invoice-box { border: none; box-shadow: none; }
+            body { padding: 0; background: #fff; }
+            .invoice-box { box-shadow: none; border: none; max-width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <button onclick="window.print()" class="print-btn">🖨️ Print Cash Memo</button>
+    <button onclick="window.print()" class="print-btn">
+        <svg style="width:20px;height:20px;vertical-align:middle;margin-right:8px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+        Print Invoice
+    </button>
 
     <div class="invoice-box">
         <div class="header">
             <div class="logo">
-                <h1>ChoshmaZone</h1>
-                <span>Premium Eyewear</span><br>
-                <span>Dhaka, Bangladesh</span><br>
-                <span>Phone: 01700-000000</span>
+                <h1><?= e($settings['site_title'] ?? 'ChoshmaZone') ?></h1>
+                <p><?= e($settings['site_tagline'] ?? 'Premium Eyewear Store') ?></p>
             </div>
             <div class="invoice-details">
-                <h2>CASH MEMO</h2>
-                <strong>Order #:</strong> <?= e($order['id']) ?><br>
-                <strong>Date:</strong> <?= date('d F Y', strtotime($order['created_at'])) ?><br>
-                <strong>Status:</strong> <?= ucfirst(e($order['status'])) ?>
+                <h2>Invoice</h2>
+                <p><strong>#<?= e($order['id']) ?></strong></p>
+                <p><?= date('d M Y', strtotime($order['created_at'])) ?></p>
+                <div class="mt-2">
+                    <span class="badge badge-<?= $order['status'] === 'completed' ? 'completed' : 'pending' ?>">
+                        <?= ucfirst(e($order['status'])) ?>
+                    </span>
+                </div>
             </div>
         </div>
 
-        <?php 
-            $shipping = json_decode($order['shipping_address'] ?? '{}', true); 
-        ?>
-        <div class="customer-info">
-            <h3>Billed To</h3>
-            <strong><?= e($shipping['name'] ?? $order['user_name'] ?? 'Guest') ?></strong><br>
-            <?= e($shipping['address'] ?? '') ?><br>
-            <?= e($shipping['city'] ?? '') ?> - <?= e($shipping['postal_code'] ?? '') ?><br>
-            Phone: <?= e($shipping['phone'] ?? '') ?><br>
-            Email: <?= e($shipping['email'] ?? '') ?>
+        <div class="info-grid">
+            <div class="info-block">
+                <h3>Billed To</h3>
+                <?php $shipping = json_decode($order['shipping_address'] ?? '{}', true); ?>
+                <p style="font-size: 18px; margin-bottom: 8px; color: var(--dark);"><?= e($shipping['name'] ?? $order['name'] ?? 'Guest') ?></p>
+                <p><?= e($shipping['address'] ?? '') ?></p>
+                <p><?= e($shipping['city'] ?? '') ?>, <?= e($shipping['postal_code'] ?? '') ?></p>
+                <p><i class="fas fa-phone"></i> <?= e($shipping['phone'] ?? '') ?></p>
+            </div>
+            <div class="info-block">
+                <h3>From</h3>
+                <p style="font-size: 18px; margin-bottom: 8px; color: var(--dark);"><?= e($settings['site_title'] ?? 'ChoshmaZone') ?></p>
+                <p><?= nl2br(e($settings['contact_address'] ?? 'Dhaka, Bangladesh')) ?></p>
+                <p>Email: <?= e($settings['contact_email'] ?? 'support@choshmazone.com') ?></p>
+                <p>Phone: <?= e($settings['contact_phone'] ?? '') ?></p>
+            </div>
         </div>
 
         <table>
@@ -148,29 +212,40 @@
                     <th>Item Description</th>
                     <th class="text-center">Qty</th>
                     <th class="text-right">Price</th>
-                    <th class="text-right">Total</th>
+                    <th class="text-right">Subtotal</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach($items as $item): ?>
                 <tr>
-                    <td><?= e($item['name']) ?></td>
+                    <td style="font-weight: 600;"><?= e($item['name']) ?></td>
                     <td class="text-center"><?= $item['quantity'] ?></td>
-                    <td class="text-right">৳<?= number_format($item['price'], 2) ?></td>
-                    <td class="text-right">৳<?= number_format($item['price'] * $item['quantity'], 2) ?></td>
+                    <td class="text-right"><?= $settings['currency'] ?? '৳' ?><?= number_format($item['price'], 0) ?></td>
+                    <td class="text-right" style="font-weight: 600;"><?= $settings['currency'] ?? '৳' ?><?= number_format($item['price'] * $item['quantity'], 0) ?></td>
                 </tr>
                 <?php endforeach; ?>
-                
-                <tr class="total-row">
-                    <td colspan="3" class="text-right">Grand Total:</td>
-                    <td class="text-right">৳<?= number_format($order['total_amount'], 2) ?></td>
-                </tr>
             </tbody>
         </table>
 
+        <div class="total-section">
+            <div class="total-row">
+                <span style="color: var(--gray);">Subtotal</span>
+                <span><?= $settings['currency'] ?? '৳' ?><?= number_format($order['total_amount'], 0) ?></span>
+            </div>
+            <div class="total-row">
+                <span style="color: var(--gray);">Shipping</span>
+                <span style="color: #059669; font-weight: 600;">FREE</span>
+            </div>
+            <div class="total-row grand-total">
+                <span>Total Amount</span>
+                <span><?= $settings['currency'] ?? '৳' ?><?= number_format($order['total_amount'], 0) ?></span>
+            </div>
+        </div>
+
         <div class="footer">
-            <p>Thank you for shopping with ChoshmaZone!</p>
-            <p>For any queries, contact info@choshmazone.com</p>
+            <p><strong>Thank you for your purchase!</strong></p>
+            <p>This is a computer-generated invoice and does not require a physical signature.</p>
+            <p>&copy; <?= date('Y') ?> <?= e($settings['site_title'] ?? 'ChoshmaZone') ?>. All rights reserved.</p>
         </div>
     </div>
 

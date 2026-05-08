@@ -9,6 +9,29 @@ class ShopController extends Controller {
     }
 
     public function index() {
+        if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
+            $query = $_GET['q'] ?? '';
+            $products = $this->productModel->search($query, 5);
+            
+            if (empty($products)) {
+                echo '<div class="p-3 text-center text-muted">No products found for "' . e($query) . '"</div>';
+                exit;
+            }
+
+            foreach ($products as $p) {
+                $price = $p['discount_price'] > 0 ? $p['discount_price'] : $p['price'];
+                echo '
+                <a href="' . SITE_URL . '/shop/product/' . $p['id'] . '" class="search-result-item">
+                    <img src="' . asset('images/products/' . ($p['image_url'] ?? 'placeholder.png')) . '" class="search-result-img">
+                    <div class="search-result-info">
+                        <h4>' . e($p['name']) . '</h4>
+                        <p>' . formatPrice($price) . '</p>
+                    </div>
+                </a>';
+            }
+            exit;
+        }
+
         $filters = [
             'category_id' => $_GET['category'] ?? null,
             'search' => $_GET['search'] ?? null,

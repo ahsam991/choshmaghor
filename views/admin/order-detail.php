@@ -1,21 +1,22 @@
-<div class="page-header">
-    <div class="container d-flex justify-content-between align-items-center">
-        <h1><i class="fas fa-receipt"></i> অর্ডার বিস্তারিত</h1>
-        <?php if ($order): 
-            $shipping = json_decode($order['shipping_address'] ?? '{}', true);
-        ?>
-            <div>
-                <?php if (!empty($shipping['phone'])): ?>
-                    <a href="https://wa.me/<?= preg_replace('/[^0-9]/', '', $shipping['phone']) ?>" class="btn btn-outline-gold" target="_blank">
-                        <i class="fab fa-whatsapp me-2"></i> Message Customer
-                    </a>
-                <?php endif; ?>
-                <a href="<?= SITE_URL ?>/admin/invoice/<?= $order['id'] ?>" class="btn btn-gold ms-2" target="_blank">
-                    <i class="fas fa-print me-2"></i> Print Cash Memo
-                </a>
-            </div>
-        <?php endif; ?>
+<div class="admin-page-header">
+    <div>
+        <h1 class="admin-page-title"><i class="fas fa-receipt"></i> Order Details</h1>
+        <p class="admin-page-sub">Review order status, customer info, and items.</p>
     </div>
+    <?php if ($order): 
+        $shipping = json_decode($order['shipping_address'] ?? '{}', true);
+    ?>
+        <div class="d-flex gap-2">
+            <?php if (!empty($shipping['phone'])): ?>
+                <a href="https://wa.me/<?= preg_replace('/[^0-9]/', '', $shipping['phone']) ?>" class="btn btn-outline-gold" target="_blank">
+                    <i class="fab fa-whatsapp me-2"></i> Message Customer
+                </a>
+            <?php endif; ?>
+            <a href="<?= SITE_URL ?>/admin/invoice/<?= $order['id'] ?>" class="btn btn-gold" target="_blank">
+                <i class="fas fa-print me-2"></i> Print Invoice
+            </a>
+        </div>
+    <?php endif; ?>
 </div>
 
 <!-- Leaflet CSS for Admin -->
@@ -23,69 +24,69 @@
 <!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-<div class="container" style="padding: 20px 0;">
+<div class="admin-content-container">
     <?php if (!$order): ?>
-        <div class="alert alert-danger" style="background: rgba(224, 84, 84, 0.15); color: var(--red); padding: 16px; border-radius: 8px; margin-bottom: 24px; border: 1px solid rgba(224, 84, 84, 0.3);">
-            <i class="fas fa-exclamation-circle me-2"></i> অর্ডার পাওয়া যায়নি।
+        <div class="alert alert-danger shadow-sm mb-4">
+            <i class="fas fa-exclamation-circle me-2"></i> Order not found. It might have been deleted.
         </div>
         <a href="<?= SITE_URL ?>/admin/orders" class="btn btn-gold">
-            <i class="fas fa-arrow-left"></i> অর্ডারে ফিরে যান
+            <i class="fas fa-arrow-left me-2"></i> Back to Orders
         </a>
     <?php else: ?>
         <!-- Order Info Card -->
         <div class="admin-card">
             <div class="admin-card-header">
-                <h3 class="admin-card-title"><i class="fas fa-info-circle"></i> অর্ডার তথ্য</h3>
+                <h3 class="admin-card-title"><i class="fas fa-info-circle"></i> Summary</h3>
             </div>
             
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-                <div>
-                    <div style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 4px;">অর্ডার আইডি</div>
-                    <div style="color: var(--gold); font-weight: 700; font-size: 1.2rem;">#<?= e($order['id']) ?></div>
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="text-muted small mb-1 uppercase tracking-wider">Order ID</div>
+                    <div class="text-gold h5 fw-bold mb-0">#<?= e($order['id']) ?></div>
                 </div>
-                <div>
-                    <div style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 4px;">গ্রাহক</div>
-                    <div style="color: var(--white); font-weight: 600;"><?= e($shipping['name'] ?? $order['name'] ?? 'অতিথি') ?> <span class="badge bg-secondary"><?= empty($order['user_id']) ? 'Guest' : 'Member' ?></span></div>
+                <div class="col-md-3">
+                    <div class="text-muted small mb-1 uppercase tracking-wider">Customer</div>
+                    <div class="text-white fw-semibold mb-1"><?= e($shipping['name'] ?? $order['name'] ?? 'Guest') ?> <span class="badge bg-secondary ms-1"><?= empty($order['user_id']) ? 'Guest' : 'Member' ?></span></div>
                     <?php if (!empty($shipping['email'] ?? $order['email'])): ?>
-                        <div style="color: var(--text-muted); font-size: 0.85rem;"><i class="fas fa-envelope"></i> <?= e($shipping['email'] ?? $order['email']) ?></div>
+                        <div class="text-muted small"><i class="fas fa-envelope me-1"></i> <?= e($shipping['email'] ?? $order['email']) ?></div>
                     <?php endif; ?>
                     <?php if (!empty($shipping['phone'])): ?>
-                        <div style="color: var(--text-muted); font-size: 0.85rem;"><i class="fas fa-phone"></i> <?= e($shipping['phone']) ?></div>
+                        <div class="text-muted small"><i class="fas fa-phone me-1"></i> <?= e($shipping['phone']) ?></div>
                     <?php endif; ?>
                 </div>
-                <div>
-                    <div style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 4px;">তারিখ</div>
-                    <div style="color: var(--white);"><?= date('d M Y, h:i A', strtotime($order['created_at'])) ?></div>
+                <div class="col-md-3">
+                    <div class="text-muted small mb-1 uppercase tracking-wider">Date & Time</div>
+                    <div class="text-white"><?= date('d M Y, h:i A', strtotime($order['created_at'])) ?></div>
                 </div>
-                <div>
-                    <div style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 4px;">মোট মূল্য</div>
-                    <div style="color: var(--gold); font-weight: 700; font-size: 1.2rem;">৳<?= number_format($order['total_amount'], 0) ?></div>
+                <div class="col-md-3">
+                    <div class="text-muted small mb-1 uppercase tracking-wider">Total Amount</div>
+                    <div class="text-gold h5 fw-bold mb-0">৳<?= number_format($order['total_amount'], 0) ?></div>
                 </div>
-                <div>
-                    <div style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 4px;">স্ট্যাটাস</div>
-                    <select class="admin-form-control order-status-select" data-order-id="<?= $order['id'] ?>" style="width: auto; padding: 8px 12px; font-size: 0.9rem;">
+                <div class="col-md-3">
+                    <div class="text-muted small mb-1 uppercase tracking-wider">Status</div>
+                    <select class="admin-form-control order-status-select mt-1" data-order-id="<?= $order['id'] ?>" style="width: auto;">
                         <option value="pending" <?= $order['status'] === 'pending' ? 'selected' : '' ?>>Pending</option>
                         <option value="processing" <?= $order['status'] === 'processing' ? 'selected' : '' ?>>Processing</option>
                         <option value="completed" <?= $order['status'] === 'completed' ? 'selected' : '' ?>>Completed</option>
                         <option value="cancelled" <?= $order['status'] === 'cancelled' ? 'selected' : '' ?>>Cancelled</option>
                     </select>
                 </div>
-                <div>
-                    <div style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 4px;">শিপিং ঠিকানা</div>
-                    <div style="color: var(--white);">
-                        <?= e($shipping['address'] ?? '') ?><br>
+                <div class="col-md-9">
+                    <div class="text-muted small mb-1 uppercase tracking-wider">Shipping Address</div>
+                    <div class="text-white">
+                        <?= e($shipping['address'] ?? '') ?>, 
                         <?= e($shipping['city'] ?? '') ?> <?= e($shipping['postal_code'] ?? '') ?>
                         <?php if(!empty($shipping['landmark'])): ?>
-                            <br><small style="color: var(--gold);"><i class="fas fa-building"></i> <?= e($shipping['landmark']) ?></small>
+                            <br><small class="text-gold"><i class="fas fa-building me-1"></i> Landmark: <?= e($shipping['landmark']) ?></small>
                         <?php endif; ?>
                     </div>
                 </div>
             </div>
 
             <?php if(!empty($shipping['latitude']) && !empty($shipping['longitude'])): ?>
-            <div class="mt-4">
-                <div style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 8px;"><i class="fas fa-map-marker-alt"></i> পিন করা লোকেশন (Customer Location)</div>
-                <div id="admin-order-map" style="height: 300px; width: 100%; border-radius: 8px; border: 1px solid var(--border-color); z-index: 1;"></div>
+            <div class="mt-4 pt-3 border-top border-secondary">
+                <div class="text-muted small mb-2"><i class="fas fa-map-marker-alt me-1"></i> Pinpointed Location (Customer Provided)</div>
+                <div id="admin-order-map" style="height: 350px; width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); z-index: 1;"></div>
                 <script>
                     document.addEventListener("DOMContentLoaded", function() {
                         var lat = <?= json_encode($shipping['latitude']) ?>;
@@ -97,7 +98,7 @@
                                 attribution: '© OpenStreetMap'
                             }).addTo(map);
                             L.marker([lat, lng]).addTo(map)
-                                .bindPopup('<b>Customer Location</b><br><?= e($shipping['address'] ?? '') ?>')
+                                .bindPopup('<b>Delivery Point</b><br><?= e($shipping['address'] ?? '') ?>')
                                 .openPopup();
                         }
                     });
@@ -109,54 +110,60 @@
         <!-- Order Items Card -->
         <div class="admin-card">
             <div class="admin-card-header">
-                <h3 class="admin-card-title"><i class="fas fa-boxes"></i> অর্ডার আইটেম</h3>
+                <h3 class="admin-card-title"><i class="fas fa-boxes"></i> Items Purchased</h3>
             </div>
             
             <?php if (!empty($items)): ?>
-                <div style="overflow-x: auto;">
+                <div class="table-responsive">
                     <table class="admin-table">
                         <thead>
                             <tr>
-                                <th>পণ্য</th>
-                                <th>ছবি</th>
-                                <th>মূল্য</th>
-                                <th>পরিমাণ</th>
-                                <th>মোট</th>
+                                <th>Product Name</th>
+                                <th>Thumbnail</th>
+                                <th>Unit Price</th>
+                                <th>Qty</th>
+                                <th>Subtotal</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($items as $item): ?>
                             <tr>
-                                <td style="font-weight: 600; color: var(--white);"><?= e($item['name']) ?></td>
+                                <td class="fw-bold text-white"><?= e($item['name']) ?></td>
                                 <td>
                                     <?php if (!empty($item['image_url'])): ?>
-                                        <img src="<?= e($item['image_url']) ?>" alt="<?= e($item['name']) ?>" style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px;">
+                                        <img src="<?= e($item['image_url']) ?>" alt="<?= e($item['name']) ?>" class="rounded-2" style="width: 50px; height: 50px; object-fit: cover;">
                                     <?php else: ?>
-                                        <div style="width: 60px; height: 60px; background: var(--dark-3); border-radius: 6px; display: flex; align-items: center; justify-content: center;">
-                                            <i class="fas fa-image" style="color: var(--text-muted);"></i>
+                                        <div class="bg-dark text-muted rounded-2 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                            <i class="fas fa-image"></i>
                                         </div>
                                     <?php endif; ?>
                                 </td>
-                                <td style="color: var(--gold);">৳<?= number_format($item['price'], 0) ?></td>
-                                <td style="color: var(--white);"><?= $item['quantity'] ?></td>
-                                <td style="color: var(--gold); font-weight: 700;">৳<?= number_format($item['price'] * $item['quantity'], 0) ?></td>
+                                <td class="text-gold">৳<?= number_format($item['price'], 0) ?></td>
+                                <td class="text-white"><?= $item['quantity'] ?></td>
+                                <td class="text-gold fw-bold">৳<?= number_format($item['price'] * $item['quantity'], 0) ?></td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="4" class="text-end text-muted">Grand Total</th>
+                                <th class="text-gold h5 fw-bold">৳<?= number_format($order['total_amount'], 0) ?></th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             <?php else: ?>
-                <div style="text-align: center; padding: 40px; color: var(--text-muted);">
-                    <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 16px; display: block;"></i>
-                    কোনো আইটেম পাওয়া যায়নি।
+                <div class="text-center py-5 text-muted">
+                    <i class="fas fa-inbox fa-3x mb-3 d-block"></i>
+                    No items found for this order.
                 </div>
             <?php endif; ?>
         </div>
 
-        <!-- Back Button -->
-        <div style="margin-top: 24px;">
-            <a href="<?= SITE_URL ?>/admin/orders" class="btn btn-dark">
-                <i class="fas fa-arrow-left"></i> অর্ডারে ফিরে যান
+        <!-- Actions -->
+        <div class="mt-4">
+            <a href="<?= SITE_URL ?>/admin/orders" class="btn btn-dark px-4">
+                <i class="fas fa-arrow-left me-2"></i> Back to Orders
             </a>
         </div>
     <?php endif; ?>

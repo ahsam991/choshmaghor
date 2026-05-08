@@ -2,12 +2,12 @@
 <div class="admin-page-header">
     <div>
         <h1 class="admin-page-title">
-            <i class="fas fa-tachometer-alt"></i> অ্যাডমিন ড্যাশবোর্ড
+            <i class="fas fa-tachometer-alt"></i> Admin Dashboard
         </h1>
-        <p class="admin-page-sub"><?= date('d F Y, l') ?> — স্বাগতম, <strong><?= e($_SESSION['user_name'] ?? 'Admin') ?></strong>!</p>
+        <p class="admin-page-sub"><?= date('d F Y, l') ?> — Welcome, <strong><?= e($_SESSION['user_name'] ?? 'Admin') ?></strong>!</p>
     </div>
     <a href="<?= SITE_URL ?>/admin/addProduct" class="btn btn-gold">
-        <i class="fas fa-plus"></i> নতুন পণ্য
+        <i class="fas fa-plus"></i> New Product
     </a>
 </div>
 
@@ -20,9 +20,9 @@
     <div class="stat-card">
         <div class="stat-card-inner">
             <div>
-                <div class="stat-label">মোট পণ্য</div>
+                <div class="stat-label">Total Products</div>
                 <div class="stat-value"><?= isset($productCount) ? $productCount : 0 ?></div>
-                <a href="<?= SITE_URL ?>/admin/products" class="stat-link">পণ্য পরিচালনা →</a>
+                <a href="<?= SITE_URL ?>/admin/products" class="stat-link">Manage Products →</a>
             </div>
             <div class="stat-icon-box" style="background: rgba(201,168,76,0.12);">
                 <i class="fas fa-glasses" style="color: var(--gold);"></i>
@@ -33,9 +33,9 @@
     <div class="stat-card">
         <div class="stat-card-inner">
             <div>
-                <div class="stat-label">মোট অর্ডার</div>
+                <div class="stat-label">Total Orders</div>
                 <div class="stat-value"><?= isset($orderCount) ? $orderCount : 0 ?></div>
-                <a href="<?= SITE_URL ?>/admin/orders" class="stat-link">অর্ডার পরিচালনা →</a>
+                <a href="<?= SITE_URL ?>/admin/orders" class="stat-link">Manage Orders →</a>
             </div>
             <div class="stat-icon-box" style="background: rgba(33,150,243,0.12);">
                 <i class="fas fa-shopping-cart" style="color: #64b5f6;"></i>
@@ -46,9 +46,9 @@
     <div class="stat-card">
         <div class="stat-card-inner">
             <div>
-                <div class="stat-label">মোট ব্যবহারকারী</div>
+                <div class="stat-label">Total Users</div>
                 <div class="stat-value"><?= isset($userCount) ? $userCount : 0 ?></div>
-                <a href="<?= SITE_URL ?>/admin/users" class="stat-link">ব্যবহারকারী →</a>
+                <a href="<?= SITE_URL ?>/admin/users" class="stat-link">Users →</a>
             </div>
             <div class="stat-icon-box" style="background: rgba(76,175,80,0.12);">
                 <i class="fas fa-users" style="color: var(--green);"></i>
@@ -59,9 +59,9 @@
     <div class="stat-card">
         <div class="stat-card-inner">
             <div>
-                <div class="stat-label">মোট রাজস্ব</div>
+                <div class="stat-label">Total Revenue</div>
                 <div class="stat-value" style="color: var(--gold);">৳<?= isset($revenue) ? number_format($revenue, 0) : 0 ?></div>
-                <span class="stat-link" style="cursor:default;">সমস্ত অর্ডার থেকে</span>
+                <span class="stat-link" style="cursor:default;">From all orders</span>
             </div>
             <div class="stat-icon-box" style="background: rgba(201,168,76,0.12);">
                 <i class="fas fa-taka-sign" style="color: var(--gold);"></i>
@@ -75,7 +75,7 @@
     <!-- Revenue Chart -->
     <div class="admin-card">
         <div class="admin-card-header">
-            <div class="admin-card-title"><i class="fas fa-chart-line"></i> সাপ্তাহিক রাজস্ব (Weekly Revenue)</div>
+            <div class="admin-card-title"><i class="fas fa-chart-line"></i> Weekly Revenue</div>
         </div>
         <div class="admin-card-body" style="padding: 20px;">
             <canvas id="revenueChart" height="100"></canvas>
@@ -85,7 +85,7 @@
     <!-- Order Status Chart -->
     <div class="admin-card">
         <div class="admin-card-header">
-            <div class="admin-card-title"><i class="fas fa-chart-pie"></i> অর্ডার স্ট্যাটাস (Order Status)</div>
+            <div class="admin-card-title"><i class="fas fa-chart-pie"></i> Order Status</div>
         </div>
         <div class="admin-card-body" style="padding: 20px; display: flex; justify-content: center;">
             <canvas id="statusChart" height="200" style="max-height: 250px;"></canvas>
@@ -98,7 +98,7 @@
     <!-- Top Products Chart -->
     <div class="admin-card">
         <div class="admin-card-header">
-            <div class="admin-card-title"><i class="fas fa-star"></i> শীর্ষ বিক্রীত পণ্য (Top Selling Products)</div>
+            <div class="admin-card-title"><i class="fas fa-star"></i> Top Selling Products</div>
         </div>
         <div class="admin-card-body" style="padding: 20px;">
             <canvas id="topProductsChart" height="150"></canvas>
@@ -108,7 +108,7 @@
     <!-- Server Health -->
     <div class="admin-card">
         <div class="admin-card-header">
-            <div class="admin-card-title"><i class="fas fa-server"></i> সিস্টেম হেলথ (System Health)</div>
+            <div class="admin-card-title"><i class="fas fa-server"></i> System Health</div>
         </div>
         <div class="admin-card-body" style="padding: 20px;">
             <div class="health-item mb-3">
@@ -153,28 +153,28 @@
 <div class="admin-card">
     <div class="admin-card-header">
         <div class="admin-card-title">
-            <i class="fas fa-clock"></i> সাম্প্রতিক অর্ডার
+            <i class="fas fa-clock"></i> Recent Orders
         </div>
-        <a href="<?= SITE_URL ?>/admin/orders" class="btn btn-sm btn-outline-gold">সব দেখুন</a>
+        <a href="<?= SITE_URL ?>/admin/orders" class="btn btn-sm btn-outline-gold">View All</a>
     </div>
     <div style="overflow-x: auto;">
         <?php if (!empty($recentOrders)): ?>
         <table class="admin-table">
             <thead>
                 <tr>
-                    <th>অর্ডার</th>
-                    <th>গ্রাহক</th>
-                    <th>মোট</th>
-                    <th>স্ট্যাটাস</th>
-                    <th>তারিখ</th>
-                    <th>অ্যাকশন</th>
+                    <th>Order</th>
+                    <th>Customer</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($recentOrders as $order): ?>
                 <tr>
                     <td style="color:var(--gold);font-weight:700;">#<?= e($order['id']) ?></td>
-                    <td><?= e($order['name'] ?? 'অতিথি') ?></td>
+                    <td><?= e($order['name'] ?? 'Guest') ?></td>
                     <td style="color:var(--gold);font-weight:600;">৳<?= number_format($order['total_amount'], 0) ?></td>
                     <td>
                         <?php
@@ -198,7 +198,7 @@
             </tbody>
         </table>
         <?php else: ?>
-        <div class="admin-empty"><i class="fas fa-inbox"></i><p>কোনো অর্ডার নেই</p></div>
+        <div class="admin-empty"><i class="fas fa-inbox"></i><p>No orders found</p></div>
         <?php endif; ?>
     </div>
 </div>
@@ -206,24 +206,24 @@
 <!-- Quick Actions -->
 <div class="admin-card" style="margin-top:20px;">
     <div class="admin-card-header">
-        <div class="admin-card-title"><i class="fas fa-bolt"></i> দ্রুত অ্যাক্সেস</div>
+        <div class="admin-card-title"><i class="fas fa-bolt"></i> Quick Access</div>
     </div>
     <div class="quick-actions-grid">
         <a href="<?= SITE_URL ?>/admin/addProduct" class="quick-action-card">
             <i class="fas fa-plus-circle"></i>
-            <span>নতুন পণ্য যোগ</span>
+            <span>Add New Product</span>
         </a>
         <a href="<?= SITE_URL ?>/admin/products" class="quick-action-card">
             <i class="fas fa-glasses"></i>
-            <span>সব পণ্য</span>
+            <span>All Products</span>
         </a>
         <a href="<?= SITE_URL ?>/admin/orders" class="quick-action-card">
             <i class="fas fa-receipt"></i>
-            <span>অর্ডার দেখুন</span>
+            <span>View Orders</span>
         </a>
         <a href="<?= SITE_URL ?>/admin/users" class="quick-action-card">
             <i class="fas fa-users"></i>
-            <span>ব্যবহারকারী</span>
+            <span>Users</span>
         </a>
     </div>
 </div>
@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function() {
         data: {
             labels: revLabels,
             datasets: [{
-                label: 'রাজস্ব (Revenue ৳)',
+                label: 'Revenue (৳)',
                 data: revTotals,
                 borderColor: '#c9a84c',
                 backgroundColor: 'rgba(201, 168, 76, 0.1)',
@@ -315,7 +315,7 @@ document.addEventListener('DOMContentLoaded', function() {
         data: {
             labels: topLabels,
             datasets: [{
-                label: 'বিক্রিত পরিমাণ (Total Sold)',
+                label: 'Total Sold',
                 data: topSold,
                 backgroundColor: 'rgba(201, 168, 76, 0.8)',
                 borderColor: '#c9a84c',
